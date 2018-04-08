@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/08 22:12:28 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/08 22:15:31 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ $(LEM-IN): lib $(OBJ)
 
 clean:
 	@make -C $(LIB) clean
-	@rm -f $(LEM-IN)
+	@rm -f $(OBJ)
 	@echo "$(_RED)clean $(_END)			: $(_GREEN)done$(_END)"
 
 fclean: clean
@@ -57,7 +57,7 @@ re: fclean
 lib:
 	@make -j3 -C $(LIB)
 
-go:
+li:
 	@clear
 	@make fclean
 	@make all
