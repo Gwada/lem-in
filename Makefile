@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/08 22:16:00 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/10 17:40:02 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ CC			= gcc
 FLAGS		= -Weverything -Wall -Wextra -Werror
 HEADER		= -I includes -I $(LIB)/includes/
 
-SOURCES		= main.c
+SOURCES		= main.c \
+			  parse_arg.c \
+			  arg.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 
@@ -61,6 +63,9 @@ li:
 	@clear
 	@make fclean
 	@make all
-	@./$(LEM-IN)
+	@./lem-in < test1.map
+
+leaks:
+	@valgrind ./lem-in < test1.map
 
 .PHONY: all re fclean clean
