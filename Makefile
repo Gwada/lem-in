@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/10 17:40:02 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/12 11:18:15 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ HEADER		= -I includes -I $(LIB)/includes/
 
 SOURCES		= main.c \
 			  parse_arg.c \
+			  node_parser.c \
 			  arg.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
@@ -61,11 +62,8 @@ lib:
 
 li:
 	@clear
-	@make fclean
 	@make all
-	@./lem-in < test1.map
-
-leaks:
 	@valgrind ./lem-in < test1.map
+	@./lem-in < test1.map
 
 .PHONY: all re fclean clean

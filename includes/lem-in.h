@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/10 19:05:21 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/12 11:19:24 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 */
 
 # include "libft.h"
-# include "ft_printf.h"
 
 /*
 **		MACCROS
@@ -46,6 +45,8 @@ typedef	struct			s_graph
 */
 
 int						parse_file(t_graph *g, char *s);
+int						parser(t_graph *g);
+void					node_parser(t_graph *g, int ret, int i);
 void					print_arg(t_list *lst);
 void					remove_arg(t_list *lst);
 
