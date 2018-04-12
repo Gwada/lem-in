@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/12 17:22:11 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/12 21:25:34 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ static	void	pop_parser(t_graph *g, int i)
 
 int				parser(t_graph *g)
 {
+//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 	pop_parser(g, -1);
+//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 	if (g->bd ^ ERROR && g->bd & CHECK_NODE)
 		node_parser(g, -1);
+//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 
 	if (!(g->bd & ERROR) && g->bd & GOOD)
 		print_arg(g->lst);

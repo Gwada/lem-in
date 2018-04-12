@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/12 17:21:58 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/12 21:25:37 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,34 @@ int				add_elem(t_graph *g, char **s, int ret)
 	return (1);
 }
 
-//int				is_com(char *s)
-//{
-//	return (*s && *s == '#' && *(s + 1) != '#');
-//}
+int				is_com(char *s)
+{
+	if (*s && *s == '#' && *(s + 1) != '#')
+		ft_printf("{green}{bold}IS COM\n{eoc}");
+	else
+		ft_printf("{red}{bold}NO COM\n{eoc}");
+	return (*s && *s == '#' && *(s + 1) != '#');
+}
+
+static int		is_command(t_graph *g, char *s)
+{
+	if (!ft_strcmp(s, "##start"))
+	{
+		g->bd &= ~GET_END;
+		g->bd |= GET_START;
+		ft_printf("{green}{bold}IS START COMMAND\n{eoc}");///////////////////////
+		return (1);
+	}
+	if (!ft_strcmp(s, "##end"))
+	{
+		g->bd &= ~GET_START;
+		g->bd |= GET_END;
+		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
+		return (1);
+	}
+	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
+	return (0);
+}
 
 void			node_parser(t_graph *g, int i)
 {
@@ -41,24 +65,20 @@ void			node_parser(t_graph *g, int i)
 	char		*s;
 
 	s = NULL;
-	ft_printf("test\n", s);//////////////////////////////////////////////////////
 	while (g->bd & CHECK_NODE)
 	{
-		ft_printf("test\n", s);//////////////////////////////////////////////////
 		if (!add_elem(g, &s, 0))
 			break ;
-		ft_printf("%s\n", s);////////////////////////////////////////////////////
+		*s? ft_printf("%s\n", s) : 0;////////////////////////////////////////////
 		if (!*s)
 		{
 			ft_printf("{magenta}{bold}EMPTY LINE{eoc}\n");///////////////////////
 			break ;
 		}
-//		if (!is_com(s))
-//		{
-//			ft_printf("{red}{bold}NO COMS\n{eoc}");//////////////////////////////
-//		}
-		else
-			ft_printf("{green}{bold}THIS IS COM{eoc}\n");////////////////////////
+		if (!is_com(s) && !is_command(g, s))
+		{
+				;
+		}
 		g->bd &= ~CHECK_NODE;
 		g->bd |= CHECK_LINKS;
 	}

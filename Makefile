@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/12 11:18:15 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/12 21:24:26 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ _END=\x1b[0m
 
 all: $(LEM-IN)
 
-$(LEM-IN): lib $(OBJ)
+$(LEM-IN): lib $(OBJ) includes/lem-in.h
 	@$(CC) $(FLAGS) $(HEADER) -o $(LEM-IN) $(OBJ) $(LIB)/$(LIB).a
 	@echo "$(_CYAN)$(LEM-IN)$(_END)			: $(_GREEN)compiled$(_END)"
 
