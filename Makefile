@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/12 21:24:26 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/13 14:23:35 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@ LIB			= libft
 LEM-IN		= lem-in
 
 CC			= gcc
-FLAGS		= -Weverything -Wall -Wextra -Werror
+FLAGS		= -Wall -Wextra -Werror
 HEADER		= -I includes -I $(LIB)/includes/
 
 SOURCES		= main.c \
 			  parse_arg.c \
 			  node_parser.c \
-			  arg.c
+			  arg.c \
+			  room.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 
@@ -63,7 +64,7 @@ lib:
 li:
 	@clear
 	@make all
-	@valgrind ./lem-in < test1.map
-	@./lem-in < test1.map
+	@valgrind ./lem-in < ./map/test1.map
+	@./lem-in < ./map/test1.map
 
 .PHONY: all re fclean clean

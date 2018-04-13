@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/12 21:25:34 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/13 17:27:46 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ int				parser(t_graph *g)
 		node_parser(g, -1);
 //	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 
-	if (!(g->bd & ERROR) && g->bd & GOOD)
-		print_arg(g->lst);
-	else if (g->bd & ERROR)
-		remove_arg(g->lst);
+	!(g->bd & ERROR) && g->bd & GOOD ? print_arg(g->lst) : 0;
 	return (g->bd == ERROR ? 0 : 1);
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/12 21:25:29 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/13 16:59:36 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,26 @@
 **		Structures
 */
 
-typedef	struct			s_room
+typedef	struct			s_node
 {
 	char				*name;
 	char				bd;
-//	int					bd;
 	int					x;
 	int					y;
 	int					n_links;
-	struct s_room		*links;
-}						t_room;
+	struct s_node		*links;
+	struct s_node		*next;
+	struct s_node		*prev;
+}						t_node;
 
 typedef	struct			s_graph
 {
 	int					bd;
 	unsigned int		pop;
 	t_list				*lst;
-	char				*start;
-	char				*end;
-	t_room				*nodes;
+	char				*s;
+	char				*e;
+	t_node				*node;
 }						t_graph;
 
 /*
@@ -75,5 +76,9 @@ int						is_com(char *s);
 void					node_parser(t_graph *g, int i);
 void					print_arg(t_list *lst);
 void					remove_arg(t_list *lst);
+t_node					*new_node(char **data);
+void					cleaner(t_graph *g);
+void					remove_nodes(t_node *r);
+int						add_node(t_graph *g, char **data);
 
 #endif
