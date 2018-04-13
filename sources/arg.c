@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:48:45 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/13 17:55:05 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/13 18:50:09 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,32 @@ void		remove_nodes(t_node *node)
 {
 	t_node	*tmp;
 
-//	ft_printf("{red}in remove nodes\t%s\n{eoc}", node->name);
+	ft_printf("{red}\nin remove nodes\t%s\n{eoc}", node->name);
 	if (!node)
 	{
-//		ft_printf("{red}!node\n{eoc}");
+		ft_printf("{red}!node\n{eoc}");
 		return ;
 	}
 	if (node->next)
+	{
+		ft_printf("remove_nodes(node->next)\n");
 		remove_nodes(node->next);
-	if (node->name)
-		free(node->name);
-//	if (r->links)
-//		remove_links(r->links);
-	tmp = node->prev;
-	free(node);
-	remove_nodes(tmp);
+	}
+	else
+	{
+		if (node->name)
+		{
+			ft_printf("free(node->name)\n");
+			free(node->name);
+//			node->name = NULL;
+		}
+	//	if (r->links)
+	//		remove_links(r->links);
+		tmp = node->prev;
+		free(node);
+		ft_printf("free(node) -> remove_nodes(tmp)\n");
+		remove_nodes(tmp);
+	}
 }
 
 void		cleaner(t_graph *g)
