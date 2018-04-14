@@ -1,59 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_parser.c                                      :+:      :+:    :+:   */
+/*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 19:47:50 by dlavaury         ###   ########.fr       */
+/*   Created: 2018/04/14 19:15:34 by dlavaury          #+#    #+#             */
+/*   Updated: 2018/04/14 19:24:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
-#include "../libft/includes/ft_printf.h"/////////////////////////////////////////
+#include "../libft/includes/ft_printf.h"
 
-int				is_com(char *s)
+/*int				is_node(t_graph *g, char *s)
 {
-	if (*s && *s == '#' && *(s + 1) != '#')//////////////////////////////////////
-		ft_printf("{green}{bold}IS COM\n{eoc}");/////////////////////////////////
-	else/////////////////////////////////////////////////////////////////////////
-		ft_printf("{red}{bold}NO COM\n{eoc}");///////////////////////////////////
-	return (*s && *s == '#' && *(s + 1) != '#');
-}
-
-int		is_command(t_graph *g, char *s)
-{
-	if (!ft_strcmp(s, "##start"))
-	{
-		g->bd &= ~GET_END;
-		g->bd |= GET_START;
-		ft_printf("{green}{bold}IS START COMMAND\n{eoc}");///////////////////////
-		return (1);
-	}
-	if (!ft_strcmp(s, "##end"))
-	{
-		g->bd &= ~GET_START;
-		g->bd |= GET_END;
-		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
-		return (1);
-	}
-	if (*s && *s == '#' && *(s + 1) == '#')
-	{
-		g->bd &= ~CHECK_NODE;
-		ft_printf("{yellow}{bold}BAD COMMAND -> start lem-in\n{eoc}");///////////
-		return (1);
-	}
-	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
-	return (0);
-}
-
-int				is_node(t_graph *g, char *s)
-{
-	char		**def;
 	int			i;
 	int			j;
 	int			n_spaces;
+	char		**def;
 
 	i = -1;
 	def = NULL;
@@ -67,6 +32,7 @@ int				is_node(t_graph *g, char *s)
 	}
 	if (*s == 'L')
 	{
+		g->bd &= ~CHECK_NODE;
 		ft_printf("{yellow}{bold}BAD NAME -> start lem-in\n{eoc}");//////////////
 		return (0);
 	}
@@ -95,4 +61,4 @@ int				is_node(t_graph *g, char *s)
 	ft_printf("{green}test node\nname\t= %s\n", g->node->name);//////////////////
 	ft_printf("x\t= %d\ny\t= %d\n{eoc}", g->node->x, g->node->y);////////////////
 	return (1);
-}
+}*/

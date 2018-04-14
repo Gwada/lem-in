@@ -1,7 +1,7 @@
 # test com 1
 545
 om_42 9 3
-om_1 -3 5
+Lm_1 -3 5
 oom_2 16 7
 #start
 #commentaire
@@ -14,6 +14,10 @@ room_6 1 5
 room_7 4 8
 ##end
 room_0 9 5
+room_-1 48 31
+room_8 48 31
+room_-2 47 32
+room_-2 46 32
 0-4
 0-6
 1-3

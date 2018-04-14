@@ -6,13 +6,12 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/13 17:27:46 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/14 19:47:30 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
-#include "../libft/includes/get_next_line.h"
 
 static	void	pop_parser(t_graph *g, int i)
 {
@@ -21,12 +20,11 @@ static	void	pop_parser(t_graph *g, int i)
 
 	char		*s;
 
-	while (g->bd & CHECK_POP)
+	while (g->bd & CHECK_POP && g->l)
 	{
-		if (!add_elem(g, &s, 0))
-			break ;
+		s = g->l->s;
 		if ((*s == '#' && s[1] == '#')
-		|| (*s != '+' && *s != '#' && (*s > '9' || *s < '0')))
+				|| (*s != '+' && *s != '#' && (*s > '9' || *s < '0')))
 			break ;
 		i = *s == '+' ? 0 : -1;
 		while (s[0] != '#' && s[++i])
@@ -37,6 +35,7 @@ static	void	pop_parser(t_graph *g, int i)
 		s[0] != '#' && !s[i] ? g->bd &= ~CHECK_POP : 0;
 		s[0] != '#' && !s[i] ? g->bd |= CHECK_NODE : 0;
 		s[0] != '#' && !s[i] ? g->pop = (unsigned int)ft_atoi(s) : 0;
+		g->l->next ? g->l = g->l->next : 0;
 	}
 	g->bd & CHECK_POP ? g->bd = ERROR : 0;
 
@@ -45,15 +44,42 @@ static	void	pop_parser(t_graph *g, int i)
 	ft_printf("{black}{bold}{underline}END\tPOP_PARSER\n\n{eoc}");///////////////
 }
 
+static	void	node_parser(t_graph *g)
+{
+	ft_printf("{black}{bold}{underline}IN\tNODE_PARSER\n{eoc}");/////////////////
+
+
+	char		*s;
+
+	s = NULL;
+	while (g->bd & CHECK_NODE && g->l->next)
+	{
+		s = g->l->s;
+		*s? ft_printf("{underline}%s\n{eoc}", s) : 0;////////////////////////////
+		if (!*s || *s == ' ')
+		{
+			ft_printf("{magenta}{bold}EMPTY LINE OR START BY SPACE OR EOF{eoc}\n");//
+			break ;
+		}
+		if (!is_com(s) && !is_command(g, s) && !is_node(g, s))
+		{
+			g->bd &= ~CHECK_NODE;
+			g->bd |= CHECK_LINKS;
+		}
+		g->l->next ? g->l = g->l->next : 0;
+		ft_printf("\n");/////////////////////////////////////////////////////////
+	}
+
+
+	ft_printf("{black}{bold}{underline}END\tNODE_PARSER\n\n{eoc}");//////////////
+}
+
 int				parser(t_graph *g)
 {
-//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 	pop_parser(g, -1);
-//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
 	if (g->bd ^ ERROR && g->bd & CHECK_NODE)
-		node_parser(g, -1);
-//	ft_printf("{bold}g->bd state\n%hb\n{eoc}", g->bd);///////////////////////////
+		node_parser(g);
 
-	!(g->bd & ERROR) && g->bd & GOOD ? print_arg(g->lst) : 0;
+	!(g->bd & ERROR) && g->bd & GOOD ? print_arg(g->l) : 0;
 	return (g->bd == ERROR ? 0 : 1);
 }

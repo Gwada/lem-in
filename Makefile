@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/13 14:23:35 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/14 19:23:33 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SOURCES		= main.c \
 			  parse_arg.c \
 			  node_parser.c \
 			  arg.c \
-			  room.c
+			  room.c \
+			  node.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 
@@ -64,7 +65,11 @@ lib:
 li:
 	@clear
 	@make all
-	@valgrind ./lem-in < ./map/test1.map
 	@./lem-in < ./map/test1.map
+
+lil:
+	@clear
+	@make all
+	@valgrind ./lem-in < ./map/test1.map
 
 .PHONY: all re fclean clean

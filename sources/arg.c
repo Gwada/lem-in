@@ -6,92 +6,72 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:48:45 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/13 18:50:09 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/14 19:08:42 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
-#include "../libft/includes/get_next_line.h"
 
-int			add_elem(t_graph *g, char **s, int ret)
+void		remove_arg(t_arg *l)
 {
-	t_list	*l;
-
-	if (!(l = ft_lstnew(NULL, 0)) || (ret = GNL(0, (char**)&l->content) < 0))
+	if (!l)
+		return ;
+	if (l->next)
 	{
-		g->bd = ERROR;
-		return (0);
+		l->next->prev = NULL;
+		remove_arg(l->next);
 	}
-	ft_lstadd(&g->lst, l);
-	*s = (char*)l->content;
-	return (1);
+	if (l->prev)
+	{
+		l->prev->next = NULL;
+		remove_arg(l->prev);
+	}
+	if (l->s)
+		free(l->s);
+	free(l);
 }
 
-void		remove_arg(t_list *lst)
+void		print_arg(t_arg *lst)
 {
 	if (!lst)
 		return ;
-	remove_arg(lst->next);
-	if (lst->content)
-		free(lst->content);
-	if (lst)
-		free(lst);
-}
-
-void		print_arg(t_list *lst)
-{
-	if (!lst)
-		return ;
-	print_arg(lst->next);
-	ft_printf("%s\n", lst->content);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst)
+	{
+		ft_printf("%s\n", lst->s);
+		if (!lst->next)
+			return ;
+		lst = lst->next;
+	}
 }
 
 void		remove_nodes(t_node *node)
 {
-	t_node	*tmp;
-
-	ft_printf("{red}\nin remove nodes\t%s\n{eoc}", node->name);
 	if (!node)
-	{
-		ft_printf("{red}!node\n{eoc}");
 		return ;
-	}
 	if (node->next)
 	{
-		ft_printf("remove_nodes(node->next)\n");
+		node->next->prev = NULL;
 		remove_nodes(node->next);
 	}
-	else
+	if (node->prev)
 	{
-		if (node->name)
-		{
-			ft_printf("free(node->name)\n");
-			free(node->name);
-//			node->name = NULL;
-		}
-	//	if (r->links)
-	//		remove_links(r->links);
-		tmp = node->prev;
-		free(node);
-		ft_printf("free(node) -> remove_nodes(tmp)\n");
-		remove_nodes(tmp);
+		node->prev->next = NULL;
+		remove_nodes(node->prev);
 	}
+	if (node->name)
+		free(node->name);
+	free(node);
 }
 
 void		cleaner(t_graph *g)
 {
-//	ft_printf("in cleaner\n");
-	if (g->lst)
-		remove_arg(g->lst);
-//	ft_printf("after remove arg\n");
-	if (g->s)
-		free(g->s);
-//	ft_printf("free g->s\n");
-	if (g->e)
-		free(g->e);
-//	ft_printf("free g->e\n");
+	if (g->l)
+		remove_arg(g->l);
+	g->l = NULL;
 	if (g->node)
 		remove_nodes(g->node);
-//	ft_printf("after remove nodes\n");
+	g->node = NULL;
 }

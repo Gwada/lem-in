@@ -6,7 +6,7 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 14:32:58 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/01/13 14:44:50 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/14 17:50:20 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static	char	*ft_make_line(t_fd *cur, char **line)
 
 int				get_next_line(const int fd, char **line)
 {
-	static t_fd		*cur;
+	static t_fd	*cur;
 
 	if (fd < 0 || !line || BUFF_SIZE < 1 || !(cur = ft_find(cur, fd)))
 		return (-1);
@@ -134,7 +134,7 @@ int				get_next_line(const int fd, char **line)
 		{
 			if (**line)
 				return (1);
-			if (!cur->ret && !*cur->buf && !*line)
+			if (!cur->ret && !*cur->buf && !**line)
 				ft_del_one(cur);
 			return (cur->ret ? 1 : 0);
 		}
