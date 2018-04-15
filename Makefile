@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/14 19:23:33 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/15 14:46:59 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SOURCES		= main.c \
 			  parse_arg.c \
 			  node_parser.c \
 			  arg.c \
-			  room.c
+			  room.c \
+			  links.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 

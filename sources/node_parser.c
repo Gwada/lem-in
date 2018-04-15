@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 19:47:50 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/15 21:11:46 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				is_com(char *s)
 	return (*s && *s == '#' && *(s + 1) != '#');
 }
 
-int		is_command(t_graph *g, char *s)
+int				is_command(t_graph *g, char *s)
 {
 	if (!ft_strcmp(s, "##start"))
 	{
@@ -59,17 +59,15 @@ int				is_node(t_graph *g, char *s)
 	def = NULL;
 	n_spaces = 0;
 	while (s[++i])
-		s[i] == ' ' ? ++n_spaces : 0;
+		s[i] == ' ' && s[i + 1] ? ++n_spaces : 0;
 	if (n_spaces != 2 || *s == 'L')
 	{
 		n_spaces != 2 ? ft_printf("{red}{bold}NO ROOM DEF\n{eoc}") : 0;//////////
 		*s == 'L' ? ft_printf("{yellow}{bold}BAD NAME -> start lem-in\n{eoc}") : 0;//
 		return (0);
 	}
-	if (!(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
+	if (!(i = 0) && !(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
 		return (0);
-	i = -1;
-	i = 0;
 	while (++i < 3)
 	{
 		j = (def[i][0] == '+' || def[i][0] == '-' ? 0 : -1);
@@ -113,29 +111,31 @@ static	int		in_grap(t_node *node, char *name, int ret)
 
 int				is_location(t_graph *g, char *s)
 {
-	char		**location;
-	int			linkable;
+	char		**name;
+	int			i;
+	int			link;
+	int			minus;
 
-	linkable = 0;
-	location = NULL;
-	if (ft_countwords(s, '-', 0) != 2)
+	i = -1;
+	link = 0;
+	name = NULL;
+	minus = 0;
+	while (s[++i])
+		s[i] == '-' && s[i + 1] ? ++minus : 0;
+	if (minus == 1)
 	{
+		if (!(name = ft_strsplit(s, '-')) && (g->bd = ERROR))
+			return (0);
+		if (ft_strcmp(*name, name[1]))
+			if (in_grap(g->node, *name, 0) && in_grap(g->node, name[1], 0))
+				link = add_link(g, name);
+		free(name[0]);
+		free(name[1]);
+		free(name[2]);
+		free(name);
+		!link ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
+	}
+	else/////////////////////////////////////////////////////////////////////////
 		ft_printf("{red}NO LOCATION\n{eoc}");////////////////////////////////////
-		return (0);
-	}
-	if (!(location = ft_strsplit(s, '-')) && (g->bd = ERROR))
-		return (0);
-
-	if (in_grap(g->node, location[0], 0) && in_grap(g->node, location[1], 0))
-	{
-		ft_printf("{green}{bold}IS LINK\n{yellow}");/////////////////////////////
-		ft_printf("node 1 = %s\tnode 2 = %s\n{eoc}", location[0], location[1]);//
-		linkable = 1;
-	}
-	free(location[0]);
-	free(location[1]);
-	free(location[2]);
-	free(location);
-	!linkable ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
-	return (linkable);
+	return (link);
 }

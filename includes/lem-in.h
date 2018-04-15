@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 19:31:49 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/15 21:20:18 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef	struct			s_arg
 	struct	s_arg		*next;
 }						t_arg;
 
+typedef	struct			s_link
+{
+	struct	s_node		*node;
+	struct	s_link		*prev;
+	struct	s_link		*next;
+}						t_link;
+
 typedef	struct			s_node
 {
 	char				*name;
@@ -57,7 +64,7 @@ typedef	struct			s_node
 	int					x;
 	int					y;
 	int					n_links;
-	struct s_node		*links;
+	struct s_link		*links;
 	struct s_node		*next;
 	struct s_node		*prev;
 }						t_node;
@@ -65,8 +72,9 @@ typedef	struct			s_node
 typedef	struct			s_graph
 {
 	int					bd;
-	unsigned int		pop;
-	t_list				*lst;
+	unsigned	int		pop;
+	unsigned	int		n_nodes;
+	unsigned	int		n_links;
 	t_arg				*l;
 	char				*start;
 	char				*end;
@@ -79,12 +87,21 @@ typedef	struct			s_graph
 
 int						parse_file(t_graph *g, char *s);
 int						parser(t_graph *g);
+
 void					print_arg(t_arg *lst);
-void					remove_arg(t_arg *l);
-t_node					*new_node(char **data);
+
 void					cleaner(t_graph *g);
+void					remove_arg(t_arg *l);
 void					remove_nodes(t_node *r);
+void					remove_links(t_link *l);
+
 int						add_node(t_graph *g, char **data);
+t_node					*new_node(char **data);
+t_node					*node_finder(t_node *node, char *name);
+
+int						add_link(t_graph *g, char **location);
+t_link					*link_finder(t_node *node, char *name);
+
 int						is_com(char *s);
 int						is_node(t_graph *g, char *s);
 int						is_command(t_graph *g, char *s);

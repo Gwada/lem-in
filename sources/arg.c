@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:48:45 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 19:08:42 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/15 18:29:29 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ void		print_arg(t_arg *lst)
 	}
 }
 
+void		remove_links(t_link *link)
+{
+	if (!link)
+		return ;
+	if (link->next)
+	{
+		link->next->prev = NULL;
+		remove_links(link->next);
+	}
+	if (link->prev)
+	{
+		link->prev->next = NULL;
+		remove_links(link->prev);
+	}
+	free(link);
+}
+
 void		remove_nodes(t_node *node)
 {
 	if (!node)
@@ -63,6 +80,8 @@ void		remove_nodes(t_node *node)
 	}
 	if (node->name)
 		free(node->name);
+	if (node->links)
+		remove_links(node->links);
 	free(node);
 }
 

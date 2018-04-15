@@ -6,17 +6,17 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 19:13:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/15 18:20:02 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-t_node			*new_node(char **data)
+t_node				*new_node(char **data)
 {
-	int			i;
-	t_node		*new;
+	int				i;
+	t_node			*new;
 
 	i = 0;
 	if (!(new = malloc(sizeof(t_node))))
@@ -36,35 +36,37 @@ t_node			*new_node(char **data)
 	return (new);
 }
 
-t_node		*node_finder(t_node *node, char *name)
+t_node				*node_finder(t_node *node, char *name)
 {
-	int		ret;
+	int				ret;
 
 	if ((ret = ft_strcmp(node->name, name)) < 0)
 	{
-		if (node->next && ft_strcmp(node->next->name, name) < 0)
+		if (node->next && ft_strcmp(node->next->name, name) <= 0)
 			return (node_finder(node->next, name));
 		return (node);
 	}
 	else if (ret > 0)
 	{
-		if (node->prev && ft_strcmp(node->prev->name, name) > 0)
+		if (node->prev && ft_strcmp(node->prev->name, name) >= 0)
 			return (node_finder(node->prev, name));
 		return (node);
 	}
 	return (node);
 }
 
-t_node		*insert_node(t_node *node, t_node *new)
+static	t_node		*insert_node(t_node *node, t_node *new)
 {
-	if (ft_strcmp(node->name, new->name) < 0)
+	int				ret;
+
+	if ((ret = ft_strcmp(node->name, new->name)) < 0)
 	{
 		new->next = node->next ? node->next : NULL;
 		node->next ? node->next->prev = new : NULL;
 		new->prev = node;
 		node->next = new;
 	}
-	else if (ft_strcmp(node->name, new->name) > 0)
+	else if (ret > 0)
 	{
 		new->prev = node->prev ? node->prev : NULL;
 		node->prev ? node->prev->next = new : NULL;
@@ -74,13 +76,13 @@ t_node		*insert_node(t_node *node, t_node *new)
 	return (new);
 }
 
-int			add_node(t_graph *g, char **data)
+int					add_node(t_graph *g, char **data)
 {
-	t_node	*new;
+	t_node			*new;
 
 	if (!(new = new_node(data)))
 		return (0);
-	if (!g->node)
+	if (!g->node && ++g->n_nodes)
 		g->node = new;
 	else
 	{
@@ -92,7 +94,7 @@ int			add_node(t_graph *g, char **data)
 			free(new->name);
 			free(new);
 		}
-		else
+		else if (++g->n_nodes)
 			g->node = insert_node(g->node, new);
 	}
 	if (g->bd & GET_START && (g->start = g->node->name))
