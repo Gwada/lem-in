@@ -88,5 +88,6 @@ int						add_node(t_graph *g, char **data);
 int						is_com(char *s);
 int						is_node(t_graph *g, char *s);
 int						is_command(t_graph *g, char *s);
+int						is_location(t_graph *g, char *s);
 
 #endif

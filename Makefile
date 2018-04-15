@@ -21,8 +21,7 @@ SOURCES		= main.c \
 			  parse_arg.c \
 			  node_parser.c \
 			  arg.c \
-			  room.c \
-			  node.c
+			  room.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 

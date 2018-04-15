@@ -95,5 +95,9 @@ int			add_node(t_graph *g, char **data)
 		else
 			g->node = insert_node(g->node, new);
 	}
+	if (g->bd & GET_START && (g->start = g->node->name))
+		g->bd &= ~GET_START;
+	if (g->bd & GET_END && (g->end = g->node->name))
+		g->bd &= ~GET_END;
 	return (1);
 }

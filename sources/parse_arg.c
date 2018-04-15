@@ -55,7 +55,7 @@ static	void	node_parser(t_graph *g)
 	while (g->bd & CHECK_NODE && g->l->next)
 	{
 		s = g->l->s;
-		*s? ft_printf("{underline}%s\n{eoc}", s) : 0;////////////////////////////
+		*s? ft_printf("%s\n{eoc}", s) : 0;///////////////////////////////////////
 		if (!*s || *s == ' ')
 		{
 			ft_printf("{magenta}{bold}EMPTY LINE OR START BY SPACE OR EOF{eoc}\n");//
@@ -64,14 +64,21 @@ static	void	node_parser(t_graph *g)
 		if (!is_com(s) && !is_command(g, s) && !is_node(g, s))
 		{
 			g->bd &= ~CHECK_NODE;
-			g->bd |= CHECK_LINKS;
+			is_location(g, s) ? g->bd |= CHECK_LINKS : 0;
 		}
 		g->l->next ? g->l = g->l->next : 0;
 		ft_printf("\n");/////////////////////////////////////////////////////////
 	}
-
-
-	ft_printf("{black}{bold}{underline}END\tNODE_PARSER\n\n{eoc}");//////////////
+	while (g->node->prev)////////////////////////////////////////////////////////
+		g->node = g->node->prev;/////////////////////////////////////////////////
+	while (g->node)//////////////////////////////////////////////////////////////
+	{////////////////////////////////////////////////////////////////////////////
+		ft_printf("{cyan}%s\n{eoc}", g->node->name);/////////////////////////////
+		if (!g->node->next)//////////////////////////////////////////////////////
+			break ;//////////////////////////////////////////////////////////////
+		g->node = g->node->next;/////////////////////////////////////////////////
+	}////////////////////////////////////////////////////////////////////////////
+	ft_printf("{black}{bold}{underline}\nEND\tNODE_PARSER\n\n{eoc}");////////////
 }
 
 int				parser(t_graph *g)
@@ -79,6 +86,7 @@ int				parser(t_graph *g)
 	pop_parser(g, -1);
 	if (g->bd ^ ERROR && g->bd & CHECK_NODE)
 		node_parser(g);
+	ft_printf("{yellow}g->start = %s\ng->end = %s\n\n{eoc}", g->start, g->end);//
 
 	!(g->bd & ERROR) && g->bd & GOOD ? print_arg(g->l) : 0;
 	return (g->bd == ERROR ? 0 : 1);

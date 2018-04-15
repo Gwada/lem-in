@@ -60,14 +60,10 @@ int				is_node(t_graph *g, char *s)
 	n_spaces = 0;
 	while (s[++i])
 		s[i] == ' ' ? ++n_spaces : 0;
-	if (n_spaces != 2)
+	if (n_spaces != 2 || *s == 'L')
 	{
-		ft_printf("{red}{bold}NO ROOM DEF\n{eoc}");//////////////////////////////
-		return (0);
-	}
-	if (*s == 'L')
-	{
-		ft_printf("{yellow}{bold}BAD NAME -> start lem-in\n{eoc}");//////////////
+		n_spaces != 2 ? ft_printf("{red}{bold}NO ROOM DEF\n{eoc}") : 0;//////////
+		*s == 'L' ? ft_printf("{yellow}{bold}BAD NAME -> start lem-in\n{eoc}") : 0;//
 		return (0);
 	}
 	if (!(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
@@ -92,7 +88,54 @@ int				is_node(t_graph *g, char *s)
 	ft_printf("{green}{bold}IS GOOD ROOM DEF\n{eoc}");///////////////////////////
 	if (!add_node(g, def) && (g->bd = ERROR))
 		return (0);
-	ft_printf("{green}test node\nname\t= %s\n", g->node->name);//////////////////
-	ft_printf("x\t= %d\ny\t= %d\n{eoc}", g->node->x, g->node->y);////////////////
+	ft_printf("{yellow}{bold}name = %s\t", g->node->name);///////////////////////
+	ft_printf("x = %d\ty = %d\n{eoc}", g->node->x, g->node->y);//////////////////
 	return (1);
+}
+
+static	int		in_grap(t_node *node, char *name, int ret)
+{
+	!ret ? ret = ft_strcmp(node->name, name) : 0;
+	if (ret < 0)
+	{
+		if (!node->next || (ret = ft_strcmp(node->next->name, name)) > 0)
+			return (0);
+		return (ret ? in_grap(node->next, name, ret) : 1);
+	}
+	if (ret > 0)
+	{
+		if (!node->prev || (ret = ft_strcmp(node->prev->name, name)) < 0)
+			return (0);
+		return (ret ? in_grap(node->prev, name, ret) : 1);
+	}
+	return (1);
+}
+
+int				is_location(t_graph *g, char *s)
+{
+	char		**location;
+	int			linkable;
+
+	linkable = 0;
+	location = NULL;
+	if (ft_countwords(s, '-', 0) != 2)
+	{
+		ft_printf("{red}NO LOCATION\n{eoc}");////////////////////////////////////
+		return (0);
+	}
+	if (!(location = ft_strsplit(s, '-')) && (g->bd = ERROR))
+		return (0);
+
+	if (in_grap(g->node, location[0], 0) && in_grap(g->node, location[1], 0))
+	{
+		ft_printf("{green}{bold}IS LINK\n{yellow}");/////////////////////////////
+		ft_printf("node 1 = %s\tnode 2 = %s\n{eoc}", location[0], location[1]);//
+		linkable = 1;
+	}
+	free(location[0]);
+	free(location[1]);
+	free(location[2]);
+	free(location);
+	!linkable ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
+	return (linkable);
 }
