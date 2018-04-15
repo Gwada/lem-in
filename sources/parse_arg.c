@@ -20,7 +20,7 @@ static	void	pop_parser(t_graph *g, int i)
 
 	char		*s;
 
-	while (g->bd & CHECK_POP && g->l)
+	while (g->bd & CHECK_POP && g->l->next)
 	{
 		s = g->l->s;
 		if ((*s == '#' && s[1] == '#')
