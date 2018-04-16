@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/15 21:20:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 14:38:16 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	void	pop_parser(t_graph *g, int i)
 	{
 		s = g->l->s;
 		if ((*s == '#' && s[1] == '#')
-				|| (*s != '+' && *s != '#' && (*s > '9' || *s < '0')))
+		|| (*s != '+' && *s != '#' && (*s > '9' || *s < '0')))
 			break ;
 		i = *s == '+' ? 0 : -1;
 		while (s[0] != '#' && s[++i])
@@ -39,7 +39,6 @@ static	void	pop_parser(t_graph *g, int i)
 			break ;
 		g->l = g->l->next;
 	}
-	g->bd & CHECK_POP ? g->bd = ERROR : 0;
 
 
 	ft_printf("{green}pop = %d\n", g->pop);//////////////////////////////////////
@@ -95,58 +94,61 @@ static	void	location_parser(t_graph *g)
 		g->l = g->l->next;
 		ft_printf("\n");/////////////////////////////////////////////////////////
 	}
+	!*s ? g->bd |= GOOD : 0;
 	ft_printf("{black}{bold}{underline}END\tLOCATION_PARSER\n\n{eoc}");//////////
 }
 
-static	void	print_graph(t_graph *g)
-{
-	t_link		*link;
-
-	link = NULL;
-	ft_printf("{yellow}{bold}ant\t\t= %d\n", g->pop);
-	ft_printf("n_nodes\t\t= %d\n", g->n_nodes);
-	ft_printf("n_links\t\t= %d\n", g->n_links);
-	ft_printf("start\t\t= %s\n", g->start);
-	ft_printf("end\t\t= %s\n\n{eoc}", g->end);
-	while (g->node && g->node->prev)
-		g->node = g->node->prev;
-	if (g->node)
-		while (g->node)
-		{
-			ft_printf("{red}node->name\t= {underline}%s\n{eoc}", g->node->name);
-			ft_printf("node->x\t\t= %d\n", g->node->x);
-			ft_printf("node->y\t\t= %d\n", g->node->y);
-			ft_printf("node->n_links\t= %d\n", g->node->n_links);
-			if ((link = g->node->links))
-			{
-				while (link->prev)
-					link = link->prev;
-				while (link)
-				{
+static	void	print_graph(t_graph *g)//////////////////////////////////////////
+{////////////////////////////////////////////////////////////////////////////////
+	t_link		*link;///////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+	link = NULL;/////////////////////////////////////////////////////////////////
+	ft_printf("{yellow}{bold}ant\t\t= %d\n", g->pop);////////////////////////////
+	ft_printf("n_nodes\t\t= %d\n", g->n_nodes);//////////////////////////////////
+	ft_printf("n_links\t\t= %d\n", g->n_links);//////////////////////////////////
+	ft_printf("start\t\t= %s\n", g->start);//////////////////////////////////////
+	ft_printf("end\t\t= %s\n\n{eoc}", g->end);///////////////////////////////////
+	while (g->node && g->node->prev)/////////////////////////////////////////////
+		g->node = g->node->prev;/////////////////////////////////////////////////
+	if (g->node)/////////////////////////////////////////////////////////////////
+		while (g->node)//////////////////////////////////////////////////////////
+		{////////////////////////////////////////////////////////////////////////
+			ft_printf("{red}node->name\t= {underline}%s\n{eoc}", g->node->name);//
+			ft_printf("node->x\t\t= %d\n", g->node->x);//////////////////////////
+			ft_printf("node->y\t\t= %d\n", g->node->y);//////////////////////////
+			ft_printf("node->n_links\t= %d\n", g->node->n_links);////////////////
+			if ((link = g->node->links))/////////////////////////////////////////
+			{////////////////////////////////////////////////////////////////////
+				while (link->prev)///////////////////////////////////////////////
+					link = link->prev;///////////////////////////////////////////
+				while (link)/////////////////////////////////////////////////////
+				{////////////////////////////////////////////////////////////////
 					ft_printf("{green}{underline}%s\t{eoc}", link->node->name);//
-					if (!link->next)
-						break ;
-					link = link->next;
-				}
-				ft_printf("\n");///////////////////////////////////////////////////
-			}
-			else
-				ft_printf("{red}{underline}NO LINKS{eoc}\n");
-			if (!g->node->next)
-				break ;
-			g->node = g->node->next;
+					if (!link->next)/////////////////////////////////////////////
+						break ;//////////////////////////////////////////////////
+					link = link->next;///////////////////////////////////////////
+				}////////////////////////////////////////////////////////////////
+				ft_printf("\n");/////////////////////////////////////////////////
+			}////////////////////////////////////////////////////////////////////
+			else/////////////////////////////////////////////////////////////////
+				ft_printf("{red}{underline}NO LINKS{eoc}\n");////////////////////
+			if (!g->node->next)//////////////////////////////////////////////////
+				break ;//////////////////////////////////////////////////////////
+			g->node = g->node->next;/////////////////////////////////////////////
 			ft_printf("\n\n");///////////////////////////////////////////////////
-		}
-}
+		}////////////////////////////////////////////////////////////////////////
+}////////////////////////////////////////////////////////////////////////////////
 
 int				parser(t_graph *g)
 {
 	pop_parser(g, -1);
-	if (g->bd ^ ERROR && g->bd & CHECK_NODE)
+	if (g->pop > 0 && g->bd ^ ERROR && g->bd & CHECK_NODE)
 		node_parser(g);
-	if (g->bd ^ ERROR && g->bd & CHECK_LINKS)
+	ft_printf("test |%s|\n", g->l->s);
+	if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		location_parser(g);
-//	!(g->bd & ERROR) && g->bd & GOOD ? print_arg(g->l) : 0;
-	print_graph(g);
-	return (g->bd == ERROR ? 0 : 1);
+	print_graph(g);//////////////////////////////////////////////////////////////;
+	g->bd != ERROR && g->bd & GOOD ? print_arg(g->l) : 0;
+	ft_printf("test |%s|\n", g->l->s);
+	return (1);
 }

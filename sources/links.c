@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:12:12 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/15 20:34:36 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 12:21:27 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int					add_link(t_graph *g, char **name)
 		node_2->links = insert_link(node_2, link_2);
 	}
 	else/////////////////////////////////////////////////////////////////////////
-		ft_printf("{green}THIS NODE IS PRESENT{eoc}\n");/////////////////////////
+		ft_printf("{green}LINK ALREADY CREATED{eoc}\n");/////////////////////////
 //	ft_printf("{yellow}name 1 = %s\tname 2 = %s\n", *name, name[1]);/////////////
 //	ft_printf("node 1 = %s\tnode 2 = %s\n{eoc}", node_1->name, node_2->name);////
 	return (1);

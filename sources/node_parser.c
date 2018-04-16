@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/15 21:11:46 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 14:09:32 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,27 @@ int				is_node(t_graph *g, char *s)
 	def = NULL;
 	n_spaces = 0;
 	while (s[++i])
-		s[i] == ' ' && s[i + 1] ? ++n_spaces : 0;
+		s[i] == ' ' ? ++n_spaces : 0;
 	if (n_spaces != 2 || *s == 'L')
 	{
-		n_spaces != 2 ? ft_printf("{red}{bold}NO ROOM DEF\n{eoc}") : 0;//////////
-		*s == 'L' ? ft_printf("{yellow}{bold}BAD NAME -> start lem-in\n{eoc}") : 0;//
+		n_spaces != 2 ? ft_printf("{red}{bold}INCORECT SPACES NUMBER{eoc}\n") : 0;////
+		*s == 'L' ? ft_printf("{yellow}BEGINIG BY 'L' -> start lem-in\n{eoc}") : 0;//
 		return (0);
 	}
 	if (!(i = 0) && !(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
 		return (0);
 	while (++i < 3)
 	{
+		if ((def[i][0] == '-' || def[i][0] == '+') && !def[i][1])
+		{
+			i = -1;
+			g->bd &= ~CHECK_NODE;
+			ft_printf("{red}{bold}EMPTY COOR -> {yellow}start lem-in\n{eoc}");///
+			while (++i < 4)
+				free(def[i]);
+			free(def);
+			return (0);
+		}
 		j = (def[i][0] == '+' || def[i][0] == '-' ? 0 : -1);
 		while (def[i][++j])
 			if (def[i][j] > '9' || def[i][j] < '0')
@@ -122,13 +132,12 @@ int				is_location(t_graph *g, char *s)
 	minus = 0;
 	while (s[++i])
 		s[i] == '-' && s[i + 1] ? ++minus : 0;
-	if (minus == 1)
+	if (minus == 1 && g->n_nodes > 0)
 	{
 		if (!(name = ft_strsplit(s, '-')) && (g->bd = ERROR))
 			return (0);
-		if (ft_strcmp(*name, name[1]))
-			if (in_grap(g->node, *name, 0) && in_grap(g->node, name[1], 0))
-				link = add_link(g, name);
+		if (in_grap(g->node, *name, 0) && in_grap(g->node, name[1], 0))
+			link = ft_strcmp(*name, name[1]) ? add_link(g, name) : 1;
 		free(name[0]);
 		free(name[1]);
 		free(name[2]);

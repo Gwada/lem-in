@@ -1,0 +1,122 @@
+
+
+
+[30m[1m[4mIN	POP_PARSER
+[0m[32mpop = 2
+[30m[1m[4mEND	POP_PARSER
+
+[0m[30m[1m[4mIN	NODE_PARSER
+[0m##start
+[0m[31m[1mNO COM
+[0m[32m[1mIS START COMMAND
+[0m
+1 23 3
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 1	x = 23	y = 3
+[0m
+2 16 7
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 2	x = 16	y = 7
+[0m
+#commentaire
+[0m[32m[1mIS COM
+[0m
+3 16 3
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 3	x = 16	y = 3
+[0m
+4 16 5
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 4	x = 16	y = 5
+[0m
+5 9 3
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 5	x = 9	y = 3
+[0m
+3
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[31m[1mINCORECT SPACES NUMBER[0m
+[31mNO LOCATION
+[0m[30m[1m[4mEND	NODE_PARSER
+
+[0mtest |6 1 5|
+[33m[1mant		= 2
+n_nodes		= 5
+n_links		= 0
+start		= 1
+end		= (null)
+
+[0m[31mnode->name	= [4m1
+[0mnode->x		= 23
+node->y		= 3
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+
+
+[31mnode->name	= [4m2
+[0mnode->x		= 16
+node->y		= 7
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+
+
+[31mnode->name	= [4m3
+[0mnode->x		= 16
+node->y		= 3
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+
+
+[31mnode->name	= [4m4
+[0mnode->x		= 16
+node->y		= 5
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+
+
+[31mnode->name	= [4m5
+[0mnode->x		= 9
+node->y		= 3
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+2
+##start
+1 23 3
+2 16 7
+#commentaire
+3 16 3
+4 16 5
+5 9 3
+3
+6 1 5
+7 4 8
+##end
+0 9 5
+0-4
+0-6
+1-3
+4-3
+5-2
+3-5
+#autre commentaire
+4-2
+2-1
+7-6
+7-2
+7-4
+6-5
+test |6 1 5|
+.......................................................
+
+

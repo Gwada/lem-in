@@ -1,0 +1,15 @@
+10
+##start
+A 23 3
+B 16 7
+#commentaire
+C 16 3
+D 16 5
+E 9 3
+##end
+F 1 5
+A-B
+B-C
+C-D
+D-E
+E-F

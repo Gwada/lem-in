@@ -1,0 +1,16 @@
+test31:		BOOM 🔥 // il manque 2 mais possible de traiter OK
+test35:		BOOM 🔥 // remplace 2 par 20, possible de traiter OK
+test36:		BOOM 🔥 // 2 remplace par -2 OK
+test49:		BOOM 🔥 //  manque 2 place en commentair OK
+test50:		BOOM 🔥 // 2 place en commande OK
+test68:		BOOM 🔥 // end en commentaire OK
+test71:		BOOM 🔥 // lien invalide mais possible de traiteriter OK
+test84:		BOOM 🔥 // end puis commentaire (pas une ligne sgnifcative) donc OK
+test85:		BOOM 🔥 // link avec salle qui existe pas mais traitable OK
+test105:	BOOM 🔥 // salle 7 non allouee mais OK
+test107:	BOOM 🔥 // caracteres en plus a la fin OK
+test108:	BOOM 🔥 // idem OK
+test117:	BOOM 🔥 // ERROR : no link to end, function should stop reading rooms after reading first link
+test128:	BOOM 🔥 // format de salle XX-XX X Y OK
+
+OK = valid

@@ -1,0 +1,57 @@
+
+
+
+[30m[1m[4mIN	POP_PARSER
+[0m[32mpop = 2
+[30m[1m[4mEND	POP_PARSER
+
+[0m[30m[1m[4mIN	NODE_PARSER
+[0m##start
+[0m[31m[1mNO COM
+[0m[32m[1mIS START COMMAND
+[0m
+1 23 3
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 1	x = 23	y = 3
+[0m
+##end
+[0m[31m[1mNO COM
+[0m[32m[1mIS END COMMAND
+[0m
+0 9 5
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[32m[1mIS GOOD ROOM DEF
+[0m[33m[1mname = 0	x = 9	y = 5
+[0m[30m[1m[4mEND	NODE_PARSER
+
+[0mtest |0 9 5|
+[33m[1mant		= 2
+n_nodes		= 2
+n_links		= 0
+start		= 1
+end		= 0
+
+[0m[31mnode->name	= [4m0
+[0mnode->x		= 9
+node->y		= 5
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+
+
+[31mnode->name	= [4m1
+[0mnode->x		= 23
+node->y		= 3
+node->n_links	= 0
+[31m[4mNO LINKS[0m
+2
+##start
+1 23 3
+##end
+0 9 5
+test |0 9 5|
+.......................................................
+
+

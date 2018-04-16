@@ -6,7 +6,7 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 14:32:58 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 17:50:20 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 17:22:24 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ static	t_fd	*ft_create_one(t_fd *current, int fd)
 {
 	t_fd	*new;
 
-	if (!(new = (t_fd*)malloc(sizeof(t_fd))))
+	if (!(new = malloc(sizeof(t_fd))))
 		return (NULL);
+	ft_bzero(new, sizeof(t_fd));
 	new->fd = fd;
-	new->ret = 0;
-	ft_bzero(new->buf, BUFF_SIZE + 1);
 	if (current && fd < current->fd)
 	{
 		new->previous = current->previous ? current->previous : NULL;
@@ -102,15 +101,13 @@ static	char	*ft_make_line(t_fd *cur, char **line)
 	cur->i = 0;
 	while (cur->buf[cur->i] && cur->buf[cur->i] != '\n')
 		cur->i++;
-	if (cur->buf[cur->i] == '\n')
-		cur->nl = 1;
+	cur->buf[cur->i] == '\n' ? cur->nl = 1 : 0;
 	if (!(new = ft_strnew(ft_strlen(*line) + cur->i)))
 		return (NULL);
 	ft_strcpy(new, *line);
 	ft_strncat(new, cur->buf, cur->i);
 	free(*line);
-	if (cur->nl)
-		cur->i++;
+	cur->nl ? cur->i++ : 0;
 	ft_strncpy(cur->buf, &cur->buf[cur->i], BUFF_SIZE);
 	return (new);
 }
@@ -132,11 +129,9 @@ int				get_next_line(const int fd, char **line)
 			return (-1);
 		if (cur->ret < BUFF_SIZE)
 		{
-			if (**line)
-				return (1);
 			if (!cur->ret && !*cur->buf && !**line)
 				ft_del_one(cur);
-			return (cur->ret ? 1 : 0);
+			return (**line || cur->ret ? 1 : 0);
 		}
 	}
 	return (1);

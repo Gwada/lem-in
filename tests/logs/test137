@@ -1,0 +1,28 @@
+
+
+
+[30m[1m[4mIN	POP_PARSER
+[0m[32mpop = 42
+[30m[1m[4mEND	POP_PARSER
+
+[0m[30m[1m[4mIN	NODE_PARSER
+[0m1-2
+[0m[31m[1mNO COM
+[0m[31m[1mNO COMMAND
+[0m[31m[1mINCORECT SPACES NUMBER[0m
+[31mNO LOCATION
+[0m[30m[1m[4mEND	NODE_PARSER
+
+[0mtest |1-2|
+[33m[1mant		= 42
+n_nodes		= 0
+n_links		= 0
+start		= (null)
+end		= (null)
+
+[0m42
+1-2
+test |1-2|
+.......................................................
+
+

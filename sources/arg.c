@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:48:45 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/15 18:29:29 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 15:42:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 void		remove_arg(t_arg *l)
 {
+	ft_printf("remove_arg 1\n");
 	if (!l)
 		return ;
+	ft_printf("remove_arg 2\n");
 	if (l->next)
 	{
 		l->next->prev = NULL;
@@ -88,9 +90,15 @@ void		remove_nodes(t_node *node)
 void		cleaner(t_graph *g)
 {
 	if (g->l)
+	{
+		ft_printf("remove_arg 0\n");
 		remove_arg(g->l);
+	}
 	g->l = NULL;
 	if (g->node)
+	{
+		ft_printf("remove_nodes 0\n");
 		remove_nodes(g->node);
+	}
 	g->node = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:51:42 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/14 18:43:21 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 17:22:26 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,20 @@ static	int		get_arg(t_graph *g)
 	int			ret;
 	t_arg		*a;
 
-	if (!(a = malloc(sizeof(t_arg))) || (ret = GNL(0, &a->s)) < 0)
-	{
-		free(a->s);
-		free(a);
+	a = NULL;
+	ret = 0;
+	if (!(a = malloc(sizeof(t_arg))))
 		return (-1);
-	}
-	if (!ret)
+	if ((ret = GNL(0, &a->s)) < 1)
 	{
-		free(a->s);
+		if (!ret)
+		{
+			free(a->s);
+			while (g->l->prev)
+				g->l = g->l->prev;
+		}
 		free(a);
-		if (!g->l)
-			return (-1);
-		while (g->l && g->l->prev)
-			g->l = g->l->prev;
-		return (1);
+		return (ret);
 	}
 	a->next = NULL;
 	a->prev = g->l ? g->l : NULL;
@@ -52,19 +51,19 @@ static	int		get_arg(t_graph *g)
 
 int				main(int argc, char **argv)
 {
-	ft_printf("\n\n\n");/////////////////////////////////////////////////////////
-
+	ft_printf("\n\n");///////////////////////////////////////////////////////////
 	t_graph		g;
 
 	init_struct(&g, argv);
-	if (argc == 1 && get_arg(&g) > 0)
+	if (argc == 1 && get_arg(&g) >= 0)
 	{
 		if (!(parser(&g)))
+		{
+			cleaner(&g);
 			return (0);
-		cleaner(&g);
+		}
 	}
 	cleaner(&g);
-
-	ft_printf(".......................................................\n\n\n");//
+	ft_printf(".......................................................\n\n");////
 	return (0);
 }
