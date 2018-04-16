@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/16 14:09:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 21:28:33 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,36 @@
 
 int				is_com(char *s)
 {
-	if (*s && *s == '#' && *(s + 1) != '#')//////////////////////////////////////
+/*	if (*s && *s == '#' && *(s + 1) != '#')//////////////////////////////////////
 		ft_printf("{green}{bold}IS COM\n{eoc}");/////////////////////////////////
 	else/////////////////////////////////////////////////////////////////////////
-		ft_printf("{red}{bold}NO COM\n{eoc}");///////////////////////////////////
-	return (*s && *s == '#' && *(s + 1) != '#');
+		ft_printf("{red}{bold}NO COM\n{eoc}");///////////////////////////////////*/
+	return (*s && *s == '#');
 }
 
 int				is_command(t_graph *g, char *s)
 {
 	if (!ft_strcmp(s, "##start"))
 	{
-		g->bd &= ~GET_END;
-		g->bd |= GET_START;
-		ft_printf("{green}{bold}IS START COMMAND\n{eoc}");///////////////////////
+		g->bd & CHECK_NODE ? g->bd &= ~GET_END : 0;
+		g->bd & CHECK_NODE ? g->bd |= GET_START : 0;
+//		ft_printf("{green}{bold}IS START COMMAND\n{eoc}");///////////////////////
 		return (1);
 	}
 	if (!ft_strcmp(s, "##end"))
 	{
-		g->bd &= ~GET_START;
-		g->bd |= GET_END;
-		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
+		g->bd & CHECK_NODE ? g->bd &= ~GET_START : 0;
+		g->bd & CHECK_NODE ? g->bd |= GET_END : 0;
+//		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
 		return (1);
 	}
-	if (*s && *s == '#' && *(s + 1) == '#')
-	{
-		g->bd &= ~CHECK_NODE;
-		ft_printf("{yellow}{bold}BAD COMMAND -> start lem-in\n{eoc}");///////////
-		return (1);
-	}
-	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
+//	if (*s && *s == '#' && *(s + 1) == '#')
+//	{
+//		g->bd & CHECK_NODE ? g->bd &= ~CHECK_NODE : 0;
+//		ft_printf("{yellow}{bold}BAD COMMAND -> start lem-in\n{eoc}");///////////
+//		return (1);
+//	}
+//	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
 	return (0);
 }
 
@@ -62,8 +62,8 @@ int				is_node(t_graph *g, char *s)
 		s[i] == ' ' ? ++n_spaces : 0;
 	if (n_spaces != 2 || *s == 'L')
 	{
-		n_spaces != 2 ? ft_printf("{red}{bold}INCORECT SPACES NUMBER{eoc}\n") : 0;////
-		*s == 'L' ? ft_printf("{yellow}BEGINIG BY 'L' -> start lem-in\n{eoc}") : 0;//
+//		n_spaces != 2 ? ft_printf("{red}{bold}INCORECT SPACES NUMBER{eoc}\n") : 0;////
+//		*s == 'L' ? ft_printf("{yellow}BEGINIG BY 'L' -> start lem-in\n{eoc}") : 0;//
 		return (0);
 	}
 	if (!(i = 0) && !(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
@@ -74,7 +74,7 @@ int				is_node(t_graph *g, char *s)
 		{
 			i = -1;
 			g->bd &= ~CHECK_NODE;
-			ft_printf("{red}{bold}EMPTY COOR -> {yellow}start lem-in\n{eoc}");///
+//			ft_printf("{red}{bold}EMPTY COOR -> {yellow}start lem-in\n{eoc}");///
 			while (++i < 4)
 				free(def[i]);
 			free(def);
@@ -86,18 +86,18 @@ int				is_node(t_graph *g, char *s)
 			{
 				i = -1;
 				g->bd &= ~CHECK_NODE;
-				ft_printf("{yellow}{bold}BAD COOR -> start lem-in\n{eoc}");//////
+//				ft_printf("{yellow}{bold}BAD COOR -> start lem-in\n{eoc}");//////
 				while (++i < 4)
 					free(def[i]);
 				free(def);
 				return (0);
 			}
 	}
-	ft_printf("{green}{bold}IS GOOD ROOM DEF\n{eoc}");///////////////////////////
+//	ft_printf("{green}{bold}IS GOOD ROOM DEF\n{eoc}");///////////////////////////
 	if (!add_node(g, def) && (g->bd = ERROR))
 		return (0);
-	ft_printf("{yellow}{bold}name = %s\t", g->node->name);///////////////////////
-	ft_printf("x = %d\ty = %d\n{eoc}", g->node->x, g->node->y);//////////////////
+//	ft_printf("{yellow}{bold}name = %s\t", g->node->name);///////////////////////
+//	ft_printf("x = %d\ty = %d\n{eoc}", g->node->x, g->node->y);//////////////////
 	return (1);
 }
 
@@ -142,9 +142,9 @@ int				is_location(t_graph *g, char *s)
 		free(name[1]);
 		free(name[2]);
 		free(name);
-		!link ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
+//		!link ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
 	}
-	else/////////////////////////////////////////////////////////////////////////
-		ft_printf("{red}NO LOCATION\n{eoc}");////////////////////////////////////
+//	else/////////////////////////////////////////////////////////////////////////
+//		ft_printf("{red}NO LOCATION\n{eoc}");////////////////////////////////////
 	return (link);
 }

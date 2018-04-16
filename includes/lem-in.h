@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/16 15:31:48 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/16 21:28:31 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef	struct			s_graph
 int						parse_file(t_graph *g, char *s);
 int						parser(t_graph *g);
 
+int						get_arg(t_graph *g, int ret);
 void					print_arg(t_arg *lst);
 
 void					cleaner(t_graph *g);
