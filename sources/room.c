@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/15 18:20:02 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/17 20:51:01 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,19 @@ t_node				*new_node(char **data)
 	t_node			*new;
 
 	i = 0;
+	if (!data)
+		return (NULL);
 	if (!(new = malloc(sizeof(t_node))))
 		return (NULL);
 	ft_bzero(new, sizeof(t_node));
-	if (data)
-	{
-		new->name = *data;
-		new->x = ft_atoi(*(data + 1));
-		new->y = ft_atoi(*(data + 2));
-		new->next = NULL;
-		new->prev = NULL;
-		while (++i < 4)
-			free(data[i]);
-		free(data);
-	}
+	new->name = *data;
+	new->x = ft_atoi(*(data + 1));
+	new->y = ft_atoi(*(data + 2));
+	new->next = NULL;
+	new->prev = NULL;
+	while (++i < 4)
+		data[i] ? free(data[i]) : 0;
+	data ? free(data) : 0;
 	return (new);
 }
 

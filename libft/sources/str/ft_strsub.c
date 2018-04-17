@@ -6,7 +6,7 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 13:01:22 by dlavaury          #+#    #+#             */
-/*   Updated: 2017/11/09 13:01:24 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/17 21:29:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strsub(const char *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (!(newstr = (ft_strnew(len))))
+	if (!(newstr = ft_strnew(len)))
 		return (NULL);
 	while (len--)
 	{

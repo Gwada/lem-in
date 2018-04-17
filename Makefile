@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/15 14:46:59 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/17 13:36:44 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ HEADER		= -I includes -I $(LIB)/includes/
 SOURCES		= main.c \
 			  parse_arg.c \
 			  node_parser.c \
+			  node_checker.c \
 			  arg.c \
 			  room.c \
 			  links.c

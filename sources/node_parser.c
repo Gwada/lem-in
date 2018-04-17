@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/16 21:28:33 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/17 13:40:10 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 int				is_com(char *s)
 {
-/*	if (*s && *s == '#' && *(s + 1) != '#')//////////////////////////////////////
-		ft_printf("{green}{bold}IS COM\n{eoc}");/////////////////////////////////
-	else/////////////////////////////////////////////////////////////////////////
-		ft_printf("{red}{bold}NO COM\n{eoc}");///////////////////////////////////*/
 	return (*s && *s == '#');
 }
 
@@ -38,85 +34,27 @@ int				is_command(t_graph *g, char *s)
 //		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
 		return (1);
 	}
-//	if (*s && *s == '#' && *(s + 1) == '#')
-//	{
-//		g->bd & CHECK_NODE ? g->bd &= ~CHECK_NODE : 0;
-//		ft_printf("{yellow}{bold}BAD COMMAND -> start lem-in\n{eoc}");///////////
-//		return (1);
-//	}
 //	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
 	return (0);
 }
 
-int				is_node(t_graph *g, char *s)
-{
-	char		**def;
-	int			i;
-	int			j;
-	int			n_spaces;
 
-	i = -1;
-	def = NULL;
-	n_spaces = 0;
-	while (s[++i])
-		s[i] == ' ' ? ++n_spaces : 0;
-	if (n_spaces != 2 || *s == 'L')
-	{
-//		n_spaces != 2 ? ft_printf("{red}{bold}INCORECT SPACES NUMBER{eoc}\n") : 0;////
-//		*s == 'L' ? ft_printf("{yellow}BEGINIG BY 'L' -> start lem-in\n{eoc}") : 0;//
-		return (0);
-	}
-	if (!(i = 0) && !(def = ft_strsplit(s, ' ')) && (g->bd = ERROR))
-		return (0);
-	while (++i < 3)
-	{
-		if ((def[i][0] == '-' || def[i][0] == '+') && !def[i][1])
-		{
-			i = -1;
-			g->bd &= ~CHECK_NODE;
-//			ft_printf("{red}{bold}EMPTY COOR -> {yellow}start lem-in\n{eoc}");///
-			while (++i < 4)
-				free(def[i]);
-			free(def);
-			return (0);
-		}
-		j = (def[i][0] == '+' || def[i][0] == '-' ? 0 : -1);
-		while (def[i][++j])
-			if (def[i][j] > '9' || def[i][j] < '0')
-			{
-				i = -1;
-				g->bd &= ~CHECK_NODE;
-//				ft_printf("{yellow}{bold}BAD COOR -> start lem-in\n{eoc}");//////
-				while (++i < 4)
-					free(def[i]);
-				free(def);
-				return (0);
-			}
-	}
-//	ft_printf("{green}{bold}IS GOOD ROOM DEF\n{eoc}");///////////////////////////
-	if (!add_node(g, def) && (g->bd = ERROR))
-		return (0);
-//	ft_printf("{yellow}{bold}name = %s\t", g->node->name);///////////////////////
-//	ft_printf("x = %d\ty = %d\n{eoc}", g->node->x, g->node->y);//////////////////
-	return (1);
-}
-
-static	int		in_grap(t_node *node, char *name, int ret)
+static    int        in_grap(t_node *node, char *name, int ret)
 {
-	!ret ? ret = ft_strcmp(node->name, name) : 0;
-	if (ret < 0)
-	{
-		if (!node->next || (ret = ft_strcmp(node->next->name, name)) > 0)
-			return (0);
-		return (ret ? in_grap(node->next, name, ret) : 1);
-	}
-	if (ret > 0)
-	{
-		if (!node->prev || (ret = ft_strcmp(node->prev->name, name)) < 0)
-			return (0);
-		return (ret ? in_grap(node->prev, name, ret) : 1);
-	}
-	return (1);
+    !ret ? ret = ft_strcmp(node->name, name) : 0;
+    if (ret < 0)
+    {
+        if (!node->next || (ret = ft_strcmp(node->next->name, name)) > 0)
+            return (0);
+        return (ret ? in_grap(node->next, name, ret) : 1);
+    }
+    if (ret > 0)
+    {
+        if (!node->prev || (ret = ft_strcmp(node->prev->name, name)) < 0)
+            return (0);
+        return (ret ? in_grap(node->prev, name, ret) : 1);
+    }
+    return (1);
 }
 
 int				is_location(t_graph *g, char *s)

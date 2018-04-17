@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 09:29:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/17 18:43:09 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,18 @@
 
 static	void		pop_parser(t_graph *g, int ret)
 {
-//	ft_printf("{black}{bold}{underline}IN\tPOP_PARSER\n{eoc}");//////////////////
 	char			*s;
 	unsigned long	num;
 
 	num = 0;
 	while (g->bd & CHECK_POP)
 	{
-		if (((ret = get_arg(g, 0)) < 0 && (g->bd = ERROR)) || !ret)
+		if ((ret = get_arg(g, 0)) < 1 || is_command(g, g->l->s))
 			return ;
-		s = g->l->s;
-		if (is_command(g, s)
-		|| (!is_com(s) && *s != '+' && !ft_str_is_numeric(s)))
-			return ;
-		if (!is_com(s))
+		if (!is_com((s = g->l->s)))
 		{
-			*s == '+' ? ++s : 0;
+			if (!ft_str_is_numeric(*s == '+' ? ++s : s))
+				return ;
 			while (*s)
 				if ((num = num * 10 + *s++ - '0') > IMAX)
 					return ;
@@ -39,8 +35,6 @@ static	void		pop_parser(t_graph *g, int ret)
 			g->pop = (unsigned int)num;
 		}
 	}
-//	ft_printf("{green}pop = %d\n", g->pop);//////////////////////////////////////
-//	ft_printf("{black}{bold}{underline}END\tPOP_PARSER\n\n{eoc}");///////////////
 }
 
 static	void	node_parser(t_graph *g, int ret)
@@ -51,25 +45,17 @@ static	void	node_parser(t_graph *g, int ret)
 	s = NULL;
 	while (g->bd & CHECK_NODE)
 	{
-		if ((ret = get_arg(g, 0)) == -1 && (g->bd = ERROR))
+		if ((ret = get_arg(g, 0)) < 1)
 			return ;
-		if (!ret)
+		if (!*(s = g->l->s) || *s == 'L')
 			return ;
-		s = g->l->s;
-//		*s? ft_printf("%s\n{eoc}", s) : 0;///////////////////////////////////////
-		if (!*s || *s == ' ')
-		{
-//			ft_printf("{magenta}{bold}EMPTY LINE OR START BY SPACE OR EOF{eoc}\n");//
-			return ;
-		}
 		if (!is_command(g, s) && !is_com(s) && !is_node(g, s))
 		{
 			if (g->bd & GET_START || g->bd & GET_END)
 				return ;
 			g->bd &= ~CHECK_NODE;
-			is_location(g, s) && !(g->bd & ERROR) ? g->bd |= CHECK_LINKS : 0;
+			!(g->bd & ERROR) && is_location(g, s) ? g->bd |= CHECK_LINKS : 0;
 		}
-//		g->bd & CHECK_NODE ? ft_printf("\n") : 0;////////////////////////////////
 	}
 //	ft_printf("{black}{bold}{underline}END\tNODE_PARSER\n\n{eoc}");//////////////
 }
@@ -82,16 +68,14 @@ static	void	location_parser(t_graph *g, int ret)
 	s = NULL;
 	while (g->bd & CHECK_LINKS)
 	{
-		if ((ret = get_arg(g, 0)) == -1 && (g->bd = ERROR))
-			return ;
-		if (!ret)
+		if ((ret = get_arg(g, 0)) < 1)
 			return ;
 		s = g->l->s;
 //		*s? ft_printf("%s\n{eoc}", s) : 0;///////////////////////////////////////
-		if (!*s || *s == ' ')
+		if (!*s)
 		{
 //			ft_printf("{magenta}{bold}EMPTY LINE OR START BY SPACE OR EOF{eoc}\n");//
-			break ;
+			return  ;
 		}
 		if (is_command(g, s) || (!is_com(s) && !is_location(g, s)))
 			g->bd &= ~CHECK_LINKS;
