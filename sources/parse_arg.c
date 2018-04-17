@@ -6,14 +6,14 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/16 21:28:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/17 09:29:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-static	void		pop_parser(t_graph *g, int ret, int i)
+static	void		pop_parser(t_graph *g, int ret)
 {
 //	ft_printf("{black}{bold}{underline}IN\tPOP_PARSER\n{eoc}");//////////////////
 	char			*s;
@@ -22,23 +22,21 @@ static	void		pop_parser(t_graph *g, int ret, int i)
 	num = 0;
 	while (g->bd & CHECK_POP)
 	{
-		if ((ret = get_arg(g, 0)) == -1 && (g->bd = ERROR))
-			return ;
-		if (!ret)
+		if (((ret = get_arg(g, 0)) < 0 && (g->bd = ERROR)) || !ret)
 			return ;
 		s = g->l->s;
 		if (is_command(g, s)
-		|| (!is_com(s) && (*s != '+' && (*s > '9' || *s < '0'))))
+		|| (!is_com(s) && *s != '+' && !ft_str_is_numeric(s)))
 			return ;
 		if (!is_com(s))
 		{
-			i = *s == '+' ? 0 : -1;
-			while (s[++i])
-				if (s[i] > '9' || s[i] < '0' || (num = num * 10 + s[i] - '0') > IMAX)
+			*s == '+' ? ++s : 0;
+			while (*s)
+				if ((num = num * 10 + *s++ - '0') > IMAX)
 					return ;
-			!s[i] ? g->bd &= ~CHECK_POP : 0;
-			!s[i] ? g->bd |= CHECK_NODE : 0;
-			!s[i] ? g->pop = (unsigned int)num : 0;
+			g->bd &= ~CHECK_POP;
+			g->bd |= CHECK_NODE;
+			g->pop = (unsigned int)num;
 		}
 	}
 //	ft_printf("{green}pop = %d\n", g->pop);//////////////////////////////////////
@@ -146,14 +144,14 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 
 int				parser(t_graph *g)
 {
-	pop_parser(g, 0, -1);
+	pop_parser(g, 0);
 	if (g->pop > 0 && g->bd ^ ERROR && g->bd & CHECK_NODE)
 	{
 		node_parser(g, 0);
 		if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		{
 			location_parser(g, 0);
-			if (!g->n_links && g->bd ^ ERROR && g->bd & GOOD)
+			if (g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
 				print_arg(g->l);
 		}
 	}
