@@ -6,12 +6,24 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 20:51:01 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:25:32 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
+
+static	int			wrong_value(int *n, char *arg)
+{
+	unsigned long	x;
+
+	x = 0;
+	while (*arg)
+		if ((x = x * 10 + *arg++ - '0') > IMAX)
+			return (0);
+	*n = (int)x;
+	return (1);
+}
 
 t_node				*new_node(char **data)
 {
@@ -19,19 +31,18 @@ t_node				*new_node(char **data)
 	t_node			*new;
 
 	i = 0;
-	if (!data)
-		return (NULL);
-	if (!(new = malloc(sizeof(t_node))))
+	if (!data || !(new = malloc(sizeof(t_node))))
 		return (NULL);
 	ft_bzero(new, sizeof(t_node));
 	new->name = *data;
-	new->x = ft_atoi(*(data + 1));
-	new->y = ft_atoi(*(data + 2));
+	if (!wrong_value(&new->x, data[1]) || !wrong_value(&new->y, data[2]))
+	{
+		free_tab(data, 4, -1);
+		return (NULL);
+	}
 	new->next = NULL;
 	new->prev = NULL;
-	while (++i < 4)
-		data[i] ? free(data[i]) : 0;
-	data ? free(data) : 0;
+	free_tab(data, 4, 0);
 	return (new);
 }
 
@@ -75,11 +86,11 @@ static	t_node		*insert_node(t_node *node, t_node *new)
 	return (new);
 }
 
-int					add_node(t_graph *g, char **data)
+int					add_node(t_graph *g, char **arg)
 {
 	t_node			*new;
 
-	if (!(new = new_node(data)))
+	if (!(new = new_node(arg)) && (g->bd = ERROR))
 		return (0);
 	if (!g->node && ++g->n_nodes)
 		g->node = new;

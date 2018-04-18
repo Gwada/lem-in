@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 13:40:10 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:57:31 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,36 @@ int				is_command(t_graph *g, char *s)
 	{
 		g->bd & CHECK_NODE ? g->bd &= ~GET_END : 0;
 		g->bd & CHECK_NODE ? g->bd |= GET_START : 0;
-//		ft_printf("{green}{bold}IS START COMMAND\n{eoc}");///////////////////////
 		return (1);
 	}
 	if (!ft_strcmp(s, "##end"))
 	{
 		g->bd & CHECK_NODE ? g->bd &= ~GET_START : 0;
 		g->bd & CHECK_NODE ? g->bd |= GET_END : 0;
-//		ft_printf("{green}{bold}IS END COMMAND\n{eoc}");/////////////////////////
 		return (1);
 	}
-//	ft_printf("{red}{bold}NO COMMAND\n{eoc}");///////////////////////////////////
 	return (0);
 }
 
 
-static    int        in_grap(t_node *node, char *name, int ret)
+static	int		in_grap(t_node *n, char *s, int ret)
 {
-    !ret ? ret = ft_strcmp(node->name, name) : 0;
-    if (ret < 0)
-    {
-        if (!node->next || (ret = ft_strcmp(node->next->name, name)) > 0)
-            return (0);
-        return (ret ? in_grap(node->next, name, ret) : 1);
-    }
-    if (ret > 0)
-    {
-        if (!node->prev || (ret = ft_strcmp(node->prev->name, name)) < 0)
-            return (0);
-        return (ret ? in_grap(node->prev, name, ret) : 1);
-    }
-    return (1);
+	!ret ? ret = ft_strncmp(n->name, s, ft_strlen(n->name)) : 0;
+	if (ret < 0)
+	{
+		if (!n->next
+		|| (ret = ft_strncmp(n->next->name, s, ft_strlen(n->next->name))) > 0)
+			return (0);
+		return (ret ? in_grap(n->next, s, ret) : 1);
+	}
+	if (ret > 0)
+	{
+		if (!n->prev
+		|| (ret = ft_strncmp(n->prev->name, s, ft_strlen(n->prev->name))) < 0)
+			return (0);
+		return (ret ? in_grap(n->prev, s, ret) : 1);
+	}
+	return (1);
 }
 
 int				is_location(t_graph *g, char *s)
@@ -62,27 +61,27 @@ int				is_location(t_graph *g, char *s)
 	char		**name;
 	int			i;
 	int			link;
-	int			minus;
 
 	i = -1;
 	link = 0;
-	name = NULL;
-	minus = 0;
-	while (s[++i])
-		s[i] == '-' && s[i + 1] ? ++minus : 0;
-	if (minus == 1 && g->n_nodes > 0)
+	if (g->n_nodes < 2)
+		return (0);
+	if (!(name = make_tab(2)))
 	{
-		if (!(name = ft_strsplit(s, '-')) && (g->bd = ERROR))
-			return (0);
-		if (in_grap(g->node, *name, 0) && in_grap(g->node, name[1], 0))
-			link = ft_strcmp(*name, name[1]) ? add_link(g, name) : 1;
-		free(name[0]);
-		free(name[1]);
-		free(name[2]);
-		free(name);
-//		!link ? ft_printf("{green}{bold}FALSE NAME\n{eoc}") : 0;/////////////////
+		g->bd = ERROR;
+		return (0);
 	}
-//	else/////////////////////////////////////////////////////////////////////////
-//		ft_printf("{red}NO LOCATION\n{eoc}");////////////////////////////////////
+//	if (!(name = ft_strsplit(s, '-')) && (g->bd = ERROR))
+//		return (0);
+	if (in_grap(g->node, s, 0))
+		ft_printf("{green}good work\n");
+	else
+		ft_printf("{red}big shit{eoc}\n");
+/*	if (in_grap(g->node, *name, 0) && in_grap(g->node, name[1], 0))
+		link = ft_strcmp(*name, name[1]) ? add_link(g, name) : 1;
+	free(name[0]);
+	free(name[1]);
+	free(name[2]);
+	free(name);*/
 	return (link);
 }

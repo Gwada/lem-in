@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 18:43:09 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:46:39 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static	void		pop_parser(t_graph *g, int ret)
 				return ;
 			while (*s)
 				if ((num = num * 10 + *s++ - '0') > IMAX)
+				{
+					g->bd = ERROR;
 					return ;
+				}
 			g->bd &= ~CHECK_POP;
 			g->bd |= CHECK_NODE;
 			g->pop = (unsigned int)num;
@@ -51,9 +54,9 @@ static	void	node_parser(t_graph *g, int ret)
 			return ;
 		if (!is_command(g, s) && !is_com(s) && !is_node(g, s))
 		{
+			g->bd &= ~CHECK_NODE;
 			if (g->bd & GET_START || g->bd & GET_END)
 				return ;
-			g->bd &= ~CHECK_NODE;
 			!(g->bd & ERROR) && is_location(g, s) ? g->bd |= CHECK_LINKS : 0;
 		}
 	}
@@ -70,16 +73,10 @@ static	void	location_parser(t_graph *g, int ret)
 	{
 		if ((ret = get_arg(g, 0)) < 1)
 			return ;
-		s = g->l->s;
-//		*s? ft_printf("%s\n{eoc}", s) : 0;///////////////////////////////////////
-		if (!*s)
-		{
-//			ft_printf("{magenta}{bold}EMPTY LINE OR START BY SPACE OR EOF{eoc}\n");//
-			return  ;
-		}
+		if (!*(s = g->l->s))
+			break ;
 		if (is_command(g, s) || (!is_com(s) && !is_location(g, s)))
 			g->bd &= ~CHECK_LINKS;
-//		ft_printf("\n");/////////////////////////////////////////////////////////
 	}
 	!*s ? g->bd |= GOOD : 0;
 //	ft_printf("{black}{bold}{underline}END\tLOCATION_PARSER\n\n{eoc}");//////////
@@ -122,7 +119,7 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 			if (!g->node->next)//////////////////////////////////////////////////
 				break ;//////////////////////////////////////////////////////////
 			g->node = g->node->next;/////////////////////////////////////////////
-			ft_printf("\n\n");///////////////////////////////////////////////////
+			ft_printf("\n");/////////////////////////////////////////////////////
 		}////////////////////////////////////////////////////////////////////////
 }////////////////////////////////////////////////////////////////////////////////
 
@@ -139,7 +136,7 @@ int				parser(t_graph *g)
 				print_arg(g->l);
 		}
 	}
-	print_graph(g);//////////////////////////////////////////////////////////////;
+	print_graph(g);//////////////////////////////////////////////////////////////
 	if(!g->pop || g->n_nodes < 2 || !g->n_links || !g->start || !g->end)
 	{
 		g->bd |= ERROR;

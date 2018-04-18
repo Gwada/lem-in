@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:51:42 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 11:07:45 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/18 18:31:29 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ int				get_arg(t_graph *g, int ret)
 
 int				main(int argc, char **argv)
 {
-//	ft_printf("\n\n");///////////////////////////////////////////////////////////
 	t_graph		g;
 
 	init_struct(&g, argv);
-	if (argc == 1/* && get_arg(&g, 0) >= 0*/)
+	if (argc == 1)
 	{
 		if (!(parser(&g)))
 		{
@@ -65,6 +64,5 @@ int				main(int argc, char **argv)
 		}
 	}
 	cleaner(&g);
-//	ft_printf(".......................................................\n\n");////
 	return (0);
 }
