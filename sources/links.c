@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:12:12 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/17 18:02:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/19 17:25:35 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,36 +79,30 @@ static	t_link		*insert_link(t_node *node, t_link *link)
 	return (link);
 }
 
-int					add_link(t_graph *g, char **name)
+int					add_link(t_graph *g, char *name_1, char *name_2)
 {
-//	ft_printf("{green}{bold}IS LINK{eoc}\n");////////////////////////////////////
 	t_link			*link_1;
 	t_link			*link_2;
 	t_node			*node_1;
 	t_node			*node_2;
 
+	if (!g || !name_1 || !*name_1 || !name_2 || !*name_2)
+		return (0);
 	link_1 = NULL;
 	link_2 = NULL;
-	node_1 = node_finder(g->node, *name);
-	node_2 = node_finder(g->node, *(name + 1));
-	if (!link_finder(node_1, *(name + 1)) && ++g->n_links)
+	node_1 = node_finder(g->node, name_1);
+	node_2 = node_finder(g->node, name_2);
+	if (!link_finder(node_1, name_2) && ++g->n_links)
 	{
 		if (!(link_1 = create_link(node_2)) || !(link_2 = create_link(node_1)))
 		{
 			g->bd = ERROR;
 			return (0);
 		}
-//		ft_printf("{red}NO LINKS CREATED{eoc}\n");///////////////////////////////
-//		ft_printf("node_1 = %s node_2 = %s\n", node_1->name, node_2->name);//////
-//		ft_printf("link_1 = %s link_2 = %s\n", link_1->node->name, link_2->node->name);//////
 		++node_1->n_links;
 		++node_2->n_links;
 		node_1->links = insert_link(node_1, link_1);
 		node_2->links = insert_link(node_2, link_2);
 	}
-//	else/////////////////////////////////////////////////////////////////////////
-//		ft_printf("{green}LINK ALREADY CREATED{eoc}\n");/////////////////////////
-//	ft_printf("{yellow}name 1 = %s\tname 2 = %s\n", *name, name[1]);/////////////
-//	ft_printf("node 1 = %s\tnode 2 = %s\n{eoc}", node_1->name, node_2->name);////
 	return (1);
 }

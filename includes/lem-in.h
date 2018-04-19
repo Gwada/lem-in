@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/18 19:53:39 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/19 13:07:28 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int						add_node(t_graph *g, char **data);
 t_node					*new_node(char **data);
 t_node					*node_finder(t_node *node, char *name);
 
-int						add_link(t_graph *g, char **location);
+int						add_link(t_graph *g, char *name_1, char *name_2);
 t_link					*link_finder(t_node *node, char *name);
 
 int						is_com(char *s);
