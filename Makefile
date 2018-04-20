@@ -23,7 +23,8 @@ SOURCES		= main.c \
 			  node_checker.c \
 			  arg.c \
 			  room.c \
-			  links.c
+			  links.c \
+			  path_finder.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 

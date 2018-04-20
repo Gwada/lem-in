@@ -35,13 +35,12 @@ int				get_arg(t_graph *g, int ret)
 	}
 	if ((ret = GNL(0, &a->s)) < 1)
 	{
-		if (!ret)
-			free(a->s);
-		if (g->l)
-			while (g->l->prev)
-				g->l = g->l->prev;
+		free(a->s);
 		free(a);
+		while (g->l && g->l->prev)
+			g->l = g->l->prev;
 		ret < 0 ? g->bd = ERROR : 0;
+		ret < 0 ? cleaner(g) : 0;
 		return (ret);
 	}
 	a->next = NULL;
@@ -59,10 +58,9 @@ int				main(int argc, char **argv)
 	if (argc == 1)
 	{
 		if (!(parser(&g)))
-		{
-			cleaner(&g);
 			return (0);
-		}
+		if (!path_finder(&g))
+			return (0);
 	}
 	cleaner(&g);
 	return (0);

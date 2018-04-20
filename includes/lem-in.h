@@ -63,6 +63,7 @@ typedef	struct			s_node
 	char				bd;
 	int					x;
 	int					y;
+	int					dis;
 	int					n_links;
 	struct s_link		*links;
 	struct s_node		*next;
@@ -73,6 +74,7 @@ typedef	struct			s_graph
 {
 	int					bd;
 	unsigned	int		pop;
+	unsigned	int		n_paths;
 	unsigned	int		n_nodes;
 	unsigned	int		n_links;
 	t_arg				*l;
@@ -110,5 +112,7 @@ int						is_com(char *s);
 int						is_node(t_graph *g, char *s);
 int						is_command(t_graph *g, char *s);
 int						is_location(t_graph *g, char *s);
+
+int						path_finder(t_graph *g);
 
 #endif

@@ -15,22 +15,20 @@
 
 static	int			wrong_value(int *n, char *arg)
 {
-	unsigned long	x;
+	unsigned long	num;
 
-	x = 0;
+	num = 0;
 	while (*arg)
-		if ((x = x * 10 + *arg++ - '0') > IMAX)
+		if ((num = num * 10 + *arg++ - '0') > IMAX)
 			return (0);
-	*n = (int)x;
+	*n = (int)num;
 	return (1);
 }
 
 t_node				*new_node(t_graph *g, char **data)
 {
-	int				i;
 	t_node			*new;
 
-	i = 0;
 	new = NULL;
 	if (!data || !(new = malloc(sizeof(t_node))))
 	{
