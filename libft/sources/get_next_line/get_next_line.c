@@ -6,7 +6,7 @@
 /*   By: dlavaury <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 14:32:58 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/16 17:47:29 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 03:35:42 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ int				get_next_line(const int fd, char **line)
 		if (cur->ret < BUFF_SIZE)
 		{
 			if (!cur->ret && !*cur->buf && !**line)
+			{
 				ft_del_one(cur);
+				return (0);
+			}
 			return (**line || cur->ret ? 1 : 0);
 		}
 	}
