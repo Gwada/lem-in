@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/19 13:07:28 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 03:15:00 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int						parser(t_graph *g);
 int						get_arg(t_graph *g, int ret);
 void					print_arg(t_arg *lst);
 
-char					**make_tab(size_t size);
+char					**make_tab(t_graph *g, size_t size);
 int						free_tab(char **tab, size_t size, int i);
 
 void					cleaner(t_graph *g);
@@ -100,7 +100,7 @@ void					remove_nodes(t_node *r);
 void					remove_links(t_link *l);
 
 int						add_node(t_graph *g, char **data);
-t_node					*new_node(char **data);
+t_node					*new_node(t_graph *g, char **data);
 t_node					*node_finder(t_node *node, char *name);
 
 int						add_link(t_graph *g, char *name_1, char *name_2);

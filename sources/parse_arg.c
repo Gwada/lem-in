@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/19 21:10:17 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 03:27:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static	void		pop_parser(t_graph *g, int ret)
 	unsigned long	num;
 
 	num = 0;
+	s = NULL;
 	while (g->bd & CHECK_POP)
 	{
 		if ((ret = get_arg(g, 0)) < 1 || is_command(g, g->l->s))
@@ -42,7 +43,6 @@ static	void		pop_parser(t_graph *g, int ret)
 
 static	void	node_parser(t_graph *g, int ret)
 {
-//	ft_printf("{black}{bold}{underline}IN\tNODE_PARSER\n{eoc}");/////////////////
 	char		*s;
 
 	s = NULL;
@@ -55,12 +55,15 @@ static	void	node_parser(t_graph *g, int ret)
 		if (!is_command(g, s) && !is_com(s) && !is_node(g, s))
 		{
 			g->bd &= ~CHECK_NODE;
-			if (g->bd & GET_START || g->bd & GET_END)
+			if (g->bd & GET_START || g->bd & GET_END || !g->start || !g->end)
 				return ;
-			!(g->bd & ERROR) && is_location(g, s) ? g->bd |= CHECK_LINKS : 0;
+			if (!(g->bd & ERROR) && is_location(g, s))
+			{
+				g->bd |= CHECK_LINKS;
+				return ;
+			}
 		}
 	}
-//	ft_printf("{black}{bold}{underline}END\tNODE_PARSER\n\n{eoc}");//////////////
 }
 
 static	void	location_parser(t_graph *g, int ret)

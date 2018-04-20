@@ -6,19 +6,23 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:12:12 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/19 18:49:26 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 02:56:34 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-static	t_link		*create_link(t_node *node)
+static	t_link		*create_link(t_graph *g, t_node *node)
 {
 	t_link			*link;
 
 	if (!(link = malloc(sizeof(t_link))))
+	{
+		g->bd = ERROR;
+		cleaner(g);
 		return (NULL);
+	}
 	link->node = node;
 	link->next = NULL;
 	link->prev = NULL;
@@ -94,11 +98,9 @@ int					add_link(t_graph *g, char *name_1, char *name_2)
 	node_2 = node_finder(g->node, name_2);
 	if (!link_finder(node_1, name_2) && ++g->n_links)
 	{
-		if (!(link_1 = create_link(node_2)) || !(link_2 = create_link(node_1)))
-		{
-			g->bd = ERROR;
+		if (!(link_1 = create_link(g, node_2))
+		|| !(link_2 = create_link(g, node_1)))
 			return (0);
-		}
 		++node_1->n_links;
 		++node_2->n_links;
 		node_1->links = insert_link(node_1, link_1);

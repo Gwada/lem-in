@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/18 19:25:32 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 03:04:40 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,19 @@ static	int			wrong_value(int *n, char *arg)
 	return (1);
 }
 
-t_node				*new_node(char **data)
+t_node				*new_node(t_graph *g, char **data)
 {
 	int				i;
 	t_node			*new;
 
 	i = 0;
+	new = NULL;
 	if (!data || !(new = malloc(sizeof(t_node))))
+	{
+		g->bd = ERROR;
+		cleaner(g);
 		return (NULL);
+	}
 	ft_bzero(new, sizeof(t_node));
 	new->name = *data;
 	if (!wrong_value(&new->x, data[1]) || !wrong_value(&new->y, data[2]))
@@ -90,7 +95,7 @@ int					add_node(t_graph *g, char **arg)
 {
 	t_node			*new;
 
-	if (!(new = new_node(arg)) && (g->bd = ERROR))
+	if (!(new = new_node(g, arg)))
 		return (0);
 	if (!g->node && ++g->n_nodes)
 		g->node = new;

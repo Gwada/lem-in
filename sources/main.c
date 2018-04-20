@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:51:42 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/18 18:31:29 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 02:23:43 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int				get_arg(t_graph *g, int ret)
 	if (!(a = malloc(sizeof(t_arg))))
 	{
 		g->bd = ERROR;
+		cleaner(g);
 		return (-1);
 	}
 	if ((ret = GNL(0, &a->s)) < 1)

@@ -6,21 +6,25 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 11:37:07 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/18 19:57:24 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 03:27:28 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-char				**make_tab(size_t size)
+char				**make_tab(t_graph *g, size_t size)
 {
 	char			**tab;
 	size_t			i;
 
 	i = -1;
 	if (!(tab = malloc(sizeof(char*) * size + 1)))
+	{
+		g->bd = ERROR;
+		cleaner(g);
 		return (NULL);
+	}
 	while (++i < size + 1)
 		tab[i] = NULL;
 	return (tab);
@@ -40,11 +44,13 @@ int					free_tab(char **tab, size_t size, int i)
 	return (0);
 }
 
-static	int			cut_arg(char *s, char **def, int start, int end)
+static	int			cut_arg(t_graph *g, char *s, char **def, int start)
 {
 	int				i;
+	int				end;
 
 	i = -1;
+	end = 0;
 	while (s[end] && s[end] == ' ')
 		++end;
 	while (++i < 3 && s[end])
@@ -52,9 +58,12 @@ static	int			cut_arg(char *s, char **def, int start, int end)
 		while (s[end] && s[end] != ' ')
 			++end;
 		if (!(def[i] = ft_strsub(s, start, end - start)))
+		{
+			g->bd = ERROR;
+			cleaner(g);
 			return (free_tab(def, 4, -1) - 1);
-		s[end] ? ++end : 0;
-		start = end;
+		}
+		start = s[end] ? ++end : end;
 		if (s[end] == ' ')
 			return (free_tab(def, 4, -1));
 	}
@@ -70,14 +79,12 @@ int					is_node(t_graph *g, char *s)
 	int				i;
 	int				j;
 	int				ret;
-	int				n_spaces;
 
 	i = 0;
 	def = NULL;
-	n_spaces = 0;
-	if (!(def = make_tab(3)))
+	if (!(def = make_tab(g, 3)))
 		return (0);
-	if (((ret = cut_arg(s, def, 0, 0)) == -1 && (g->bd = ERROR)) || !ret)
+	if (((ret = cut_arg(g, s, def, 0)) == -1 && (g->bd = ERROR)) || !ret)
 		return (0);
 	while (++i < 3)
 	{
