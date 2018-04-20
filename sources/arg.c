@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:48:45 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/20 03:26:47 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/20 06:47:02 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		print_arg(t_arg *lst)
 		lst = lst->prev;
 	while (lst)
 	{
-		ft_printf("%s\n", lst->s);
+		*lst->s ? ft_printf("%s\n", lst->s) : 0;
 		if (!lst->next)
 			return ;
 		lst = lst->next;
