@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/20 03:15:00 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/21 20:21:16 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # define VISITED		(1 << 0)
 # define EMPTY			(1 << 1)
+# define FREE			(1 << 2)
 
 # define GNL			get_next_line
 
@@ -64,8 +65,11 @@ typedef	struct			s_node
 	int					x;
 	int					y;
 	int					dis;
+	int					way;
+	int					ant_name;
 	int					n_links;
 	struct s_link		*links;
+	struct s_node		*from;
 	struct s_node		*next;
 	struct s_node		*prev;
 }						t_node;
@@ -73,13 +77,14 @@ typedef	struct			s_node
 typedef	struct			s_graph
 {
 	int					bd;
-	unsigned	int		pop;
-	unsigned	int		n_paths;
-	unsigned	int		n_nodes;
-	unsigned	int		n_links;
+	unsigned int		pop;
+	unsigned int		n_path;
+	unsigned int		n_paths;
+	unsigned int		n_nodes;
+	unsigned int		n_links;
 	t_arg				*l;
-	char				*start;
-	char				*end;
+	t_node				*start;
+	t_node				*end;
 	t_node				*node;
 }						t_graph;
 

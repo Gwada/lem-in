@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/20 03:27:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/21 20:21:19 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static	void	node_parser(t_graph *g, int ret)
 				g->bd |= CHECK_LINKS;
 				return ;
 			}
+			else
+				return ;
 		}
 	}
 }
@@ -91,8 +93,8 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 	ft_printf("{yellow}{bold}\nant\t\t= %d\n", g->pop);//////////////////////////
 	ft_printf("n_nodes\t\t= %d\n", g->n_nodes);//////////////////////////////////
 	ft_printf("n_links\t\t= %d\n", g->n_links);//////////////////////////////////
-	ft_printf("start\t\t= %s\n", g->start);//////////////////////////////////////
-	ft_printf("end\t\t= %s\n\n{eoc}", g->end);///////////////////////////////////
+	ft_printf("start\t\t= %s\n", g->start->name);////////////////////////////////
+	ft_printf("end\t\t= %s\n\n{eoc}", g->end->name);/////////////////////////////
 	while (g->node && g->node->prev)/////////////////////////////////////////////
 		g->node = g->node->prev;/////////////////////////////////////////////////
 	while (g->node)//////////////////////////////////////////////////////////////
@@ -117,7 +119,7 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 		else/////////////////////////////////////////////////////////////////////
 			ft_printf("{red}{underline}NO LINKS{eoc}\n");////////////////////////
 		if (!g->node->next)//////////////////////////////////////////////////////
-			break ;//////////////////////////////////////////////////////////////
+			return ;/////////////////////////////////////////////////////////////
 		g->node = g->node->next;/////////////////////////////////////////////////
 		ft_printf("\n");/////////////////////////////////////////////////////////
 	}////////////////////////////////////////////////////////////////////////////
@@ -133,10 +135,13 @@ int				parser(t_graph *g)
 		node_parser(g, 0);
 	if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		location_parser(g, 0);
-	if (g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
+	if (g->bd & CHECK_LINKS && g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
+	{
 		print_arg(g->l);
-	print_graph(g);//////////////////////////////////////////////////////////////
-	if(!g->pop || g->n_nodes < 2 || !g->n_links || !g->start || !g->end || g->bd & ERROR)
+		g->bd & CHECK_LINKS ? print_graph(g) : 0;////////////////////////////////
+	}
+	if(!g->pop || g->n_nodes < 2 || !g->n_links
+	|| !g->start || !g->end || g->bd & ERROR)
 	{
 		g->bd = ERROR;
 		while (get_next_line(0, &s) > 0)

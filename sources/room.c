@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/20 03:04:40 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/21 16:03:25 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_node				*new_node(t_graph *g, char **data)
 	}
 	ft_bzero(new, sizeof(t_node));
 	new->name = *data;
+	new->bd = FREE;
+	new->dis = -1;
 	if (!wrong_value(&new->x, data[1]) || !wrong_value(&new->y, data[2]))
 	{
 		free_tab(data, 4, -1);
@@ -110,9 +112,9 @@ int					add_node(t_graph *g, char **arg)
 		else if (++g->n_nodes)
 			g->node = insert_node(g->node, new);
 	}
-	if (g->bd & GET_START && (g->start = g->node->name))
+	if (g->bd & GET_START && (g->start = g->node))
 		g->bd &= ~GET_START;
-	if (g->bd & GET_END && (g->end = g->node->name))
+	if (g->bd & GET_END && (g->end = g->node))
 		g->bd &= ~GET_END;
 	return (1);
 }
