@@ -135,15 +135,14 @@ int				parser(t_graph *g)
 		node_parser(g, 0);
 	if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		location_parser(g, 0);
-	if (g->bd & CHECK_LINKS && g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
+	if (g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
 	{
 		print_arg(g->l);
-		g->bd & CHECK_LINKS ? print_graph(g) : 0;////////////////////////////////
+		print_graph(g);//////////////////////////////////////////////////////////
 	}
 	if(!g->pop || g->n_nodes < 2 || !g->n_links
 	|| !g->start || !g->end || g->bd & ERROR)
 	{
-		g->bd = ERROR;
 		while (get_next_line(0, &s) > 0)
 			free(s);
 		free(s);
