@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/21 18:58:21 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/22 20:51:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ int				is_location(t_graph *g, char *s)
 		if (in_graph(g, s, i, 0) && (name = g->node->name))
 			if (s[i] == '-' && in_graph(g, &s[i + 1], ft_strlen(&s[i + 1]), 0))
 			{
-				if (ft_strcmp(name, &s[i + 1]) && add_link(g, name, &s[i + 1]))
+				if (!ft_strcmp(name, &s[i + 1]))
 					return (1);
-				else
-					return (0);
+				return (add_link(g, name, &s[i + 1]));
 			}
 		++i;
 	}

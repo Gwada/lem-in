@@ -19,15 +19,10 @@ static	void			first_step(t_graph *g)
 	}
 }
 
-static	int				dijkstra(t_node *end, t_node *n, int ret)
+static	void			next_init(t_node *n)
 {
-	if (!end || !n || !n->links || !n->n_links)
-		return (0);
-	if (n == end)
-		return (1);
 	while (n->links && n->links->prev)
 		n->links = n->links->prev;
-	n->bd |= VISITED;
 	while (n->links)
 	{
 		if (n->links->node->bd & FREE
@@ -42,11 +37,23 @@ static	int				dijkstra(t_node *end, t_node *n, int ret)
 	}
 	while (n->links && n->links->prev)
 		n->links = n->links->prev;
+}
+
+static	int				dijkstra(t_node *end, t_node *start, t_node *n, int ret)
+{
+	if (!end || !n || !n->links || !n->n_links)
+		return (0);
+	if (n == end)
+		return (1);
+	n->bd |= VISITED;
+	next_init(n);
 	while (n->links)
 	{
 		if (n->links->node->bd & FREE
-		&& (n->links->node->dis == -1 || n->dis + 1 <= n->links->node->dis))
-			dijkstra(end, n->links->node, 0) ? ret = 1 : 0;
+		&& (n->links->node->dis == -1 || n->dis + 1 <= n->links->node->dis) &&
+		(!(n == start && n->links->node == end
+		&& end->from == start && start->bd & IN_PATH)))
+			dijkstra(end, start, n->links->node, 0) ? ret = 1 : 0;
 		if (!n->links->next)
 			break;
 		n->links = n->links->next;
@@ -69,6 +76,7 @@ static	void			path_marker(t_node *end, t_node *start, int path)
 			node->from->path = path;
 		}
 		node = node->from;
+		start->bd |= IN_PATH;
 		node == start ? ft_printf("%s\n", node->name) : 0;///////////////////////
 	}
 	end->bd = FREE;
@@ -88,11 +96,8 @@ int						path_finder(t_graph *g)
 	while (path && g->n_path < g->pop && g->n_path < max_path)
 	{
 		first_step(g);
-		if ((path = dijkstra(g->end, g->start, 0)))
-		{
-			path_marker(g->end, g->start, g->n_path);
-			++g->n_path;
-		}
+		if ((path = dijkstra(g->end, g->start, g->start, 0)))
+			path_marker(g->end, g->start, g->n_path++);
 	}
 	if (!g->n_path)
 	{////////////////////////////////////////////////////////////////////////////
@@ -100,5 +105,5 @@ int						path_finder(t_graph *g)
 		cleaner(g);
 	}////////////////////////////////////////////////////////////////////////////
 	ft_printf("{blue}{bold}\nEND\tPATH_FINDER{eoc}\n");//////////////////////////
-	return (!g->n_path);
+	return (g->n_path);
 }

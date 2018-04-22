@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:51:42 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/20 06:47:12 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/22 21:12:47 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ int				main(int argc, char **argv)
 
 	init_struct(&g, argv);
 	if (argc == 1)
-	{
-		if (!(parser(&g)))
-			return (0);
-		if (!path_finder(&g))
-			return (0);
-	}
+		if ((parser(&g)))
+			if (path_finder(&g))
+				;
 	cleaner(&g);
 	return (0);
 }
