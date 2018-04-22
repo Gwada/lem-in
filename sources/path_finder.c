@@ -50,8 +50,8 @@ static	int				dijkstra(t_node *end, t_node *start, t_node *n, int ret)
 	while (n->links)
 	{
 		if (n->links->node->bd & FREE
-		&& (n->links->node->dis == -1 || n->dis + 1 <= n->links->node->dis) &&
-		(!(n == start && n->links->node == end
+		&& (n->links->node->dis == -1 || n->dis + 1 <= n->links->node->dis)
+		&& (!(n == start && n->links->node == end
 		&& end->from == start && start->bd & IN_PATH)))
 			dijkstra(end, start, n->links->node, 0) ? ret = 1 : 0;
 		if (!n->links->next)
