@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/21 20:39:48 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/22 12:36:07 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define VISITED		(1 << 0)
 # define EMPTY			(1 << 1)
 # define FREE			(1 << 2)
+# define IN_PATH		(1 << 3)
 
 # define GNL			get_next_line
 
@@ -65,7 +66,7 @@ typedef	struct			s_node
 	int					x;
 	int					y;
 	int					dis;
-	int					way;
+	int					path;
 	int					ant_name;
 	int					n_links;
 	struct s_link		*links;

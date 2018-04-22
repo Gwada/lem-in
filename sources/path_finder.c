@@ -11,6 +11,7 @@ static	void			first_step(t_graph *g)
 		{
 			g->node->bd = FREE;
 			g->node->dis = -1;
+			g->node->path = -1;
 		}
 		if (!g->node->next)
 			return ;
@@ -53,6 +54,26 @@ static	int				dijkstra(t_node *end, t_node *n, int ret)
 	return (ret);
 }
 
+static	void			path_marker(t_node *end, t_node *start, int path)
+{
+	t_node *node;
+
+	node = end;
+	while (node != start)
+	{
+		ft_printf("%s -> ", node->name);/////////////////////////////////////////
+		if (node->from != start)
+		{
+			node->from->bd = IN_PATH;
+			node->from->bd |= EMPTY;
+			node->from->path = path;
+		}
+		node = node->from;
+		node == start ? ft_printf("%s\n", node->name) : 0;///////////////////////
+	}
+	end->bd = FREE;
+}
+
 int						path_finder(t_graph *g)
 {
 	ft_printf("\n{blue}{bold}IN\tPATH_FINDER{eoc}\n\n");/////////////////////////
@@ -67,17 +88,12 @@ int						path_finder(t_graph *g)
 	while (path && g->n_path < g->pop && g->n_path < max_path)
 	{
 		first_step(g);
-		path = dijkstra(g->end, g->start, 0);
-		path ? ++g->n_path : 0;
+		if ((path = dijkstra(g->end, g->start, 0)))
+		{
+			path_marker(g->end, g->start, g->n_path);
+			++g->n_path;
+		}
 	}
-	t_node *n = g->end;//////////////////////////////////////////////////////////
-	while (n != g->start)////////////////////////////////////////////////////////
-	{////////////////////////////////////////////////////////////////////////////
-		ft_printf("%s -> ", n->name);////////////////////////////////////////////
-		n = n->from;/////////////////////////////////////////////////////////////
-		n == g->start ? ft_printf("%s -> ", n->name) : 0;////////////////////////
-	}////////////////////////////////////////////////////////////////////////////
-	ft_printf("\n");/////////////////////////////////////////////////////////////
 	if (!g->n_path)
 	{////////////////////////////////////////////////////////////////////////////
 		ft_printf("{red}{underline}{bold}ERROR\n{runderline}");//////////////////
