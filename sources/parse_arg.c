@@ -59,7 +59,7 @@ static	void	node_parser(t_graph *g, int ret)
 			g->bd &= ~CHECK_NODE;
 			if (g->bd & GET_START || g->bd & GET_END || !g->start || !g->end)
 				return ((void)error_display(g, 7, s, g->line));
-			if (!(g->bd & ERROR) && is_location(g, s))
+			if (!(g->bd & ERROR) && is_location(g, s, -1))
 			{
 				g->bd |= CHECK_LINKS;
 				return ;
@@ -81,7 +81,7 @@ static	void	location_parser(t_graph *g, int ret)
 			return ;
 		if (!*(s = g->l->s))
 			return ((void)error_display(g, 5, s, g->line));
-		if (is_command(g, s) || (!is_com(s) && !is_location(g, s)))
+		if (is_command(g, s) || (!is_com(s) && !is_location(g, s, -1)))
 			g->bd &= ~CHECK_LINKS;
 	}
 }
@@ -132,29 +132,26 @@ int				parser(t_graph *g)
 	char		*s;
 
 	s = NULL;
-	ft_printf("test 1\n");
 	pop_parser(g, 0);
-	ft_printf("test 2\n");
 	if (g->pop > 0 && g->bd ^ ERROR && g->bd & CHECK_NODE)
 		node_parser(g, 0);
-	ft_printf("test 3\n");
 	if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		location_parser(g, 0);
-	ft_printf("test 4\n");
-	g->bd & GRAPH ? print_graph(g) : 0;
 	if(!g->pop || g->n_nodes < 2 || !g->n_links
 	|| !g->start || !g->end || g->bd & ERROR)
 	{
 		while (get_next_line(0, &s) > 0)
 			free(s);
 		free(s);
-		cleaner(g);
 		error_display(g, 22, s, g->line);
+		g->bd & GRAPH ? print_graph(g) : 0;
+		cleaner(g);
 		if (g->bd & COLOR)
 			ft_printf("{red}{bold}{underline}ERROR{eoc}\n");
 		else
 			ft_printf("ERROR\n");
 		exit(EXIT_SUCCESS);
 	}
+	g->bd & GRAPH ? print_graph(g) : 0;
 	return (1);
 }

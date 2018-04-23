@@ -123,7 +123,7 @@ t_link					*link_finder(t_node *node, char *name);
 int						is_com(char *s);
 int						is_node(t_graph *g, char *s);
 int						is_command(t_graph *g, char *s);
-int						is_location(t_graph *g, char *s);
+int						is_location(t_graph *g, char *s, int i);
 
 int						path_finder(t_graph *g);
 

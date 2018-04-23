@@ -35,72 +35,58 @@ int				is_command(t_graph *g, char *s)
 	return (0);
 }
 
-static	int		in_graph(t_graph *g, char *s, size_t len, int ret)
+static	int		in_graph(t_graph *g, char *s)
 {
-	ft_printf("in in_graph *s = %s\n", s);
-	ret = ft_strncmp(g->node->name, s, len);
-	ft_printf("ret = %d\n", ret);
-	if (ret < 0)
+	int			ret;
+
+	if (!g || !s || !*s)
+		return (0);
+	if ((ret = ft_strcmp(g->node->name, s)) < 0)
 	{
-		if (!g->node->next)
-			return (0);
-		if (ft_strncmp(g->node->next->name, s, len) > 0
-		&& ft_strlen(g->node->next->name) != len)
-			return (0);
-		g->node = g->node->next;
-		return (in_graph(g, s, len, 0));
+		if (g->node->next && ft_strcmp(g->node->next->name, s) <= 0)
+		{
+			g->node = g->node->next;
+			return (in_graph(g, s));
+		}
+		return (0);
 	}
 	if (ret > 0)
 	{
-		if (!g->node->prev)
-			return (0);
-		if (ft_strncmp(g->node->prev->name, s, len) < 0
-		&& ft_strlen(g->node->prev->name) != len)
-			return (0);
-		g->node = g->node->prev;
-		return (in_graph(g, s, len, 0));
+		if (g->node->prev && ft_strcmp(g->node->prev->name, s) >= 0)
+		{
+			g->node = g->node->prev;
+			return (in_graph(g, s));
+		}
+		return (0);
 	}
-	if (!ret)
-	{
-		if (ft_strlen(g->node->name) > len && g->node->prev)
-			if (ft_strncmp(g->node->prev->name, s, len) >= 0)
-			{
-				g->node = g->node->prev;
-				return (in_graph(g, s, len, 0));
-			}
-		if (ft_strlen(g->node->name) < len && g->node->next)
-			if (ft_strncmp(g->node->next->name, s, len) <= 0)
-			{
-				g->node = g->node->next;
-				return (in_graph(g, s, len, 0));
-			}
-	}
-	return (!ret && ft_strlen(g->node->name) == len ? 1 : 0);
+	return (1);
 }
 
-int				is_location(t_graph *g, char *s)
+int				is_location(t_graph *g, char *s, int i)
 {
+	char		*tmp;
 	char		*name;
-	int			i;
 
-	i = 0;
-	name = NULL;
+	if (!(tmp = ft_strnew(ft_strlen(s))))
+		if (error_display(g, 23, NULL, 1) && (g->bd = ERROR))
+			return (0);
 	if (!g || !s || !*s || g->n_nodes < 2)
 		return (0);
-	while (s[i] && s[i] != '-')
-		++i;
-	ft_printf("%s\n", s);
+	while (s[++i] && s[i] != '-')
+		tmp[i] = s[i];
 	while (s[i] && s[i] == '-')
 	{
-		if (in_graph(g, s, i, 0) && (name = g->node->name))
-			if (s[i] == '-' && in_graph(g, &s[i + 1], ft_strlen(&s[i + 1]), 0))
+		if (in_graph(g, tmp) && (name = g->node->name))
+			if (s[i] == '-' && in_graph(g, &s[i + 1]))
 			{
-				if (!ft_strcmp(name, &s[i + 1]))
+				free(tmp);
+				if (!ft_strcmp(name, &s[++i]))
 					return (1);
-				return (add_link(g, name, &s[i + 1]));
+				return (add_link(g, name, &s[i]));
 			}
-		++i;
+		(tmp[i] = s[i]) ? ++i : 0;
 	}
+	free(tmp);
 	error_display(g, 9, g->l->s, g->line);
 	return (0);
 }
