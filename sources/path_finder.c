@@ -100,10 +100,7 @@ int						path_finder(t_graph *g)
 			path_marker(g->end, g->start, g->n_path++);
 	}
 	if (!g->n_path)
-	{////////////////////////////////////////////////////////////////////////////
-		ft_printf("{red}{underline}{bold}ERROR\n{runderline}");//////////////////
-		cleaner(g);
-	}////////////////////////////////////////////////////////////////////////////
+		ft_printf("{red}{underline}{bold}ERROR\n{runderline}");/////////////////
 	ft_printf("{blue}{bold}\nEND\tPATH_FINDER{eoc}\n");//////////////////////////
 	return (g->n_path);
 }
