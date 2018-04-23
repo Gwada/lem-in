@@ -6,21 +6,24 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 13:39:44 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/21 16:03:25 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 17:28:15 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-static	int			wrong_value(int *n, char *arg)
+static	int			wrong_value(t_graph *g, int *n, char *arg)
 {
 	unsigned long	num;
 
 	num = 0;
 	while (*arg)
 		if ((num = num * 10 + *arg++ - '0') > IMAX)
+		{
+			error_display(g, 1, g->l->s, g->line);
 			return (0);
+		}
 	*n = (int)num;
 	return (1);
 }
@@ -34,13 +37,14 @@ t_node				*new_node(t_graph *g, char **data)
 	{
 		g->bd = ERROR;
 		cleaner(g);
+		error_display(g, 23, NULL, -1);
 		return (NULL);
 	}
 	ft_bzero(new, sizeof(t_node));
 	new->name = *data;
 	new->bd = FREE;
 	new->dis = -1;
-	if (!wrong_value(&new->x, data[1]) || !wrong_value(&new->y, data[2]))
+	if (!wrong_value(g, &new->x, data[1]) || !wrong_value(g, &new->y, data[2]))
 	{
 		free_tab(data, 4, -1);
 		return (NULL);

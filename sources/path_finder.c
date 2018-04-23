@@ -1,7 +1,7 @@
 #include "lem-in.h"
 #include "../libft/includes/ft_printf.h"
 
-static	void			first_step(t_graph *g)
+static	void		first_step(t_graph *g)
 {
 	while (g->node->prev)
 		g->node = g->node->prev;
@@ -19,10 +19,9 @@ static	void			first_step(t_graph *g)
 	}
 }
 
-static	void			next_init(t_node *n)
+static	void		next_init(t_node *n)
 {
-	while (n->links && n->links->prev)
-		n->links = n->links->prev;
+	go_first_link(n);
 	while (n->links)
 	{
 		if (n->links->node->bd & FREE
@@ -35,11 +34,10 @@ static	void			next_init(t_node *n)
 			break;
 		n->links = n->links->next;
 	}
-	while (n->links && n->links->prev)
-		n->links = n->links->prev;
+	go_first_link(n);
 }
 
-static	int				dijkstra(t_node *end, t_node *start, t_node *n, int ret)
+static	int			dijkstra(t_node *end, t_node *start, t_node *n, int ret)
 {
 	if (!end || !n || !n->links || !n->n_links)
 		return (0);
@@ -61,46 +59,47 @@ static	int				dijkstra(t_node *end, t_node *start, t_node *n, int ret)
 	return (ret);
 }
 
-static	void			path_marker(t_node *end, t_node *start, int path)
+static	void		path_marker(t_graph *g, t_node *end, t_node *start, int p)
 {
 	t_node *node;
 
 	node = end;
 	while (node != start)
 	{
-		ft_printf("%s -> ", node->name);/////////////////////////////////////////
+		g->bd & PATH ? ft_printf("{red}%s{eoc} -> ", node->name) : 0;
 		if (node->from != start)
 		{
 			node->from->bd = IN_PATH;
 			node->from->bd |= EMPTY;
-			node->from->path = path;
+			node->from->path = p;
 		}
 		node = node->from;
 		start->bd |= IN_PATH;
-		node == start ? ft_printf("%s\n", node->name) : 0;///////////////////////
+		if (g->bd & PATH && node == start)
+			ft_printf("{red}%s{eoc}\n\n", node->name);
 	}
 	end->bd = FREE;
 }
 
-int						path_finder(t_graph *g)
+int					path_finder(t_graph *g)
 {
-	ft_printf("\n{blue}{bold}IN\tPATH_FINDER{eoc}\n\n");/////////////////////////
-	unsigned int		max_path;
-	unsigned int		path;
+	unsigned int	max_path;
+	unsigned int	path;
 
-	max_path = g->start->n_links < g->end->n_links ? g->start->n_links : g->end->n_links;
+	if (g->start->n_links < g->end->n_links)
+		max_path = g->start->n_links;
+	else
+		max_path = g->end->n_links;
 	path = 1;
 	g->start->bd &= ~FREE;
 	g->start->bd |= VISITED;
 	g->start->dis = 0;
+	g->n_path = 0;
 	while (path && g->n_path < g->pop && g->n_path < max_path)
 	{
 		first_step(g);
 		if ((path = dijkstra(g->end, g->start, g->start, 0)))
-			path_marker(g->end, g->start, g->n_path++);
+			path_marker(g, g->end, g->start, g->n_path++);
 	}
-	if (!g->n_path)
-		ft_printf("{red}{underline}{bold}ERROR\n{runderline}");/////////////////
-	ft_printf("{blue}{bold}\nEND\tPATH_FINDER{eoc}\n");//////////////////////////
 	return (g->n_path);
 }

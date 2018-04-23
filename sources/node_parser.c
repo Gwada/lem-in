@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 16:12:02 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/22 20:51:06 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 18:59:14 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int				is_command(t_graph *g, char *s)
 
 static	int		in_graph(t_graph *g, char *s, size_t len, int ret)
 {
+	ft_printf("in in_graph *s = %s\n", s);
 	ret = ft_strncmp(g->node->name, s, len);
+	ft_printf("ret = %d\n", ret);
 	if (ret < 0)
 	{
 		if (!g->node->next)
@@ -87,6 +89,7 @@ int				is_location(t_graph *g, char *s)
 		return (0);
 	while (s[i] && s[i] != '-')
 		++i;
+	ft_printf("%s\n", s);
 	while (s[i] && s[i] == '-')
 	{
 		if (in_graph(g, s, i, 0) && (name = g->node->name))
@@ -98,5 +101,6 @@ int				is_location(t_graph *g, char *s)
 			}
 		++i;
 	}
+	error_display(g, 9, g->l->s, g->line);
 	return (0);
 }

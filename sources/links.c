@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:12:12 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/22 20:44:31 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 17:43:53 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static	t_link		*create_link(t_graph *g, t_node *node)
 	{
 		g->bd = ERROR;
 		cleaner(g);
+		error_display(g, 23, NULL, 0);
 		return (NULL);
 	}
 	link->node = node;

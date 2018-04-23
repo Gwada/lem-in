@@ -1,8 +1,29 @@
-2546
+20
 ##start
-r1- 4 5
-r1-- 5 6
+room_1 1 1
+room_2 2 2
+room_3 3 3
+room_4 4 4
+room_5 5 5
+room_6 6 6
+room_7 7 7
+room_8 8 8
+room_9 9 9
 ##end
---r2 6 5
-#
-r1-----r2
+room_10 10 10
+room_1-room_2
+room_1-room_3
+room_1-room_4
+room_1-room_5
+room_1-room_6
+room_1-room_7
+room_1-room_8
+room_1-room_9
+room_10-room_2
+room_10-room_3
+room_10-room_4
+room_10-room_5
+room_10-room_6
+room_10-room_7
+room_10-room_8
+room_10-room_9

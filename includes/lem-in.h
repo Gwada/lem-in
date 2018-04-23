@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 21:56:18 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/22 12:36:07 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 16:12:24 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define ROOM_NAME		(1 << 7)
 # define ROOM_COO_X		(1 << 8)
 # define ROOM_COO_y		(1 << 9)
+# define COLOR			(1 << 10)
+# define DEBUG			(1 << 11)
+# define GRAPH			(1 << 12)
+# define PATH			(1 << 13)
 
 # define VISITED		(1 << 0)
 # define EMPTY			(1 << 1)
@@ -67,7 +71,7 @@ typedef	struct			s_node
 	int					y;
 	int					dis;
 	int					path;
-	int					ant_name;
+	unsigned int		ant_name;
 	int					n_links;
 	struct s_link		*links;
 	struct s_node		*from;
@@ -78,6 +82,7 @@ typedef	struct			s_node
 typedef	struct			s_graph
 {
 	int					bd;
+	int					line;
 	unsigned int		pop;
 	unsigned int		n_path;
 	unsigned int		n_paths;
@@ -96,6 +101,7 @@ typedef	struct			s_graph
 int						parse_file(t_graph *g, char *s);
 int						parser(t_graph *g);
 
+int						error_display(t_graph *g, int error, char *s, int line);
 int						get_arg(t_graph *g, int ret);
 void					print_arg(t_arg *lst);
 
@@ -120,5 +126,8 @@ int						is_command(t_graph *g, char *s);
 int						is_location(t_graph *g, char *s);
 
 int						path_finder(t_graph *g);
+
+void					moov(t_graph *g);
+void					go_first_link(t_node *node);
 
 #endif

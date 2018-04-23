@@ -6,7 +6,7 @@
 #    By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/13 17:27:58 by dlavaury          #+#    #+#              #
-#    Updated: 2018/04/17 13:36:44 by dlavaury         ###   ########.fr        #
+#    Updated: 2018/04/23 08:46:51 by dlavaury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SOURCES		= main.c \
 			  arg.c \
 			  room.c \
 			  links.c \
-			  path_finder.c
+			  path_finder.c \
+			  moov.c
 
 OBJ			= $(addprefix sources/,$(SOURCES:.c=.o))
 

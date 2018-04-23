@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 11:37:07 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/22 20:44:46 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 18:48:18 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char				**make_tab(t_graph *g, size_t size)
 	{
 		g->bd = ERROR;
 		cleaner(g);
+		error_display(g, 23, NULL, -1);
 		return (NULL);
 	}
 	while (++i < size + 1)
@@ -60,12 +61,12 @@ static	int			cut_arg(t_graph *g, char *s, char **def, int start)
 			++end;
 		if (!(def[i] = ft_strsub(s, start, end - start)))
 		{
-			g->bd = ERROR;
-			cleaner(g);
+			if ((g->bd = ERROR) && error_display(g, 23, NULL, -1))
+				cleaner(g);
 			return (free_tab(def, 4, -1));
 		}
 		start = s[end] ? ++end : end;
-		if (s[end] == ' ')
+		if (s[end] == ' ' && error_display(g, 6, s, g->line))
 			return (free_tab(def, 4, -1));
 	}
 	i = 0;
@@ -82,7 +83,6 @@ int					is_node(t_graph *g, char *s)
 	int				ret;
 
 	i = 0;
-	def = NULL;
 	if (!(def = make_tab(g, 3)))
 		return (0);
 	if ((ret = cut_arg(g, s, def, 0)) < 1)
@@ -93,6 +93,7 @@ int					is_node(t_graph *g, char *s)
 		if (!ft_str_is_numeric(&def[i][j]))
 		{
 			g->bd &= ~CHECK_NODE;
+			error_display(g, 8, def[i], g->line);
 			return (free_tab(def, 4, -1));
 		}
 	}

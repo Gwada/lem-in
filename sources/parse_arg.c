@@ -6,7 +6,7 @@
 /*   By: dlavaury <dlavaury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 14:42:27 by dlavaury          #+#    #+#             */
-/*   Updated: 2018/04/22 20:57:35 by dlavaury         ###   ########.fr       */
+/*   Updated: 2018/04/23 18:59:06 by dlavaury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@ static	void		pop_parser(t_graph *g, int ret)
 	s = NULL;
 	while (g->bd & CHECK_POP)
 	{
-		if ((ret = get_arg(g, 0)) < 1 || is_command(g, g->l->s))
+		if ((ret = get_arg(g, 0)) < 1)
 			return ;
+		if (is_command(g, g->l->s))
+			return ((void)error_display(g, 3, g->l->s, g->line));
+		if (!*g->l->s)
+			return ((void)error_display(g, 5, g->l->s, g->line));
 		if (!is_com((s = g->l->s)))
 		{
 			if (!ft_str_is_numeric(*s == '+' ? ++s : s))
-				return ;
+				return ((void)error_display(g, 0, s, g->line));
 			while (*s)
 				if ((num = num * 10 + *s++ - '0') > IMAX)
-				{
-					g->bd = ERROR;
-					return ;
-				}
+					return ((void)error_display(g, 1, g->l->s, g->line));
 			g->bd &= ~CHECK_POP;
 			g->bd |= CHECK_NODE;
 			g->pop = (unsigned int)num;
@@ -52,19 +53,19 @@ static	void	node_parser(t_graph *g, int ret)
 		if ((ret = get_arg(g, 0)) < 1)
 			return ;
 		if (!*(s = g->l->s) || *s == 'L')
-			return ;
+			return ((void)error_display(g, 2, s, g->line));
 		if (!is_command(g, s) && !is_com(s) && !is_node(g, s))
 		{
 			g->bd &= ~CHECK_NODE;
 			if (g->bd & GET_START || g->bd & GET_END || !g->start || !g->end)
-				return ;
+				return ((void)error_display(g, 7, s, g->line));
 			if (!(g->bd & ERROR) && is_location(g, s))
 			{
 				g->bd |= CHECK_LINKS;
 				return ;
 			}
 			else
-				return ;
+				return ((void)error_display(g, 4, s, g->line));
 		}
 	}
 }
@@ -79,7 +80,7 @@ static	void	location_parser(t_graph *g, int ret)
 		if ((ret = get_arg(g, 0)) < 1)
 			return ;
 		if (!*(s = g->l->s))
-			return ;
+			return ((void)error_display(g, 5, s, g->line));
 		if (is_command(g, s) || (!is_com(s) && !is_location(g, s)))
 			g->bd &= ~CHECK_LINKS;
 	}
@@ -93,8 +94,8 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 	ft_printf("{yellow}{bold}\nant\t\t= %d\n", g->pop);//////////////////////////
 	ft_printf("n_nodes\t\t= %d\n", g->n_nodes);//////////////////////////////////
 	ft_printf("n_links\t\t= %d\n", g->n_links);//////////////////////////////////
-	ft_printf("start\t\t= %s\n", g->start->name);////////////////////////////////
-	ft_printf("end\t\t= %s\n\n{eoc}", g->end->name);/////////////////////////////
+	g->start ? ft_printf("start\t\t= %s\n", g->start->name) : 0;/////////////////
+	g->end ? ft_printf("end\t\t= %s\n\n{eoc}", g->end->name) : 0;////////////////
 	while (g->node && g->node->prev)/////////////////////////////////////////////
 		g->node = g->node->prev;/////////////////////////////////////////////////
 	while (g->node)//////////////////////////////////////////////////////////////
@@ -119,10 +120,11 @@ static	void	print_graph(t_graph *g)//////////////////////////////////////////
 		else/////////////////////////////////////////////////////////////////////
 			ft_printf("{red}{underline}NO LINKS{eoc}\n");////////////////////////
 		if (!g->node->next)//////////////////////////////////////////////////////
-			return ;/////////////////////////////////////////////////////////////
+			break ;//////////////////////////////////////////////////////////////
 		g->node = g->node->next;/////////////////////////////////////////////////
 		ft_printf("\n");/////////////////////////////////////////////////////////
 	}////////////////////////////////////////////////////////////////////////////
+	ft_printf("{eoc}\n");////////////////////////////////////////////////////////
 }////////////////////////////////////////////////////////////////////////////////
 
 int				parser(t_graph *g)
@@ -130,16 +132,16 @@ int				parser(t_graph *g)
 	char		*s;
 
 	s = NULL;
+	ft_printf("test 1\n");
 	pop_parser(g, 0);
+	ft_printf("test 2\n");
 	if (g->pop > 0 && g->bd ^ ERROR && g->bd & CHECK_NODE)
 		node_parser(g, 0);
+	ft_printf("test 3\n");
 	if (g->n_nodes > 1 && g->bd ^ ERROR && g->bd & CHECK_LINKS)
 		location_parser(g, 0);
-	if (g->n_links > 0 && g->bd ^ ERROR && g->bd & GOOD)
-	{
-		print_arg(g->l);
-		print_graph(g);//////////////////////////////////////////////////////////
-	}
+	ft_printf("test 4\n");
+	g->bd & GRAPH ? print_graph(g) : 0;
 	if(!g->pop || g->n_nodes < 2 || !g->n_links
 	|| !g->start || !g->end || g->bd & ERROR)
 	{
@@ -147,10 +149,12 @@ int				parser(t_graph *g)
 			free(s);
 		free(s);
 		cleaner(g);
-		ft_printf("{red}{bold}{underline}ERROR{eoc}\n");
+		error_display(g, 22, s, g->line);
+		if (g->bd & COLOR)
+			ft_printf("{red}{bold}{underline}ERROR{eoc}\n");
+		else
+			ft_printf("ERROR\n");
 		exit(EXIT_SUCCESS);
 	}
-	else
-		ft_printf("{green}{bold}{underline}OK{eoc}\n");
 	return (1);
 }
