@@ -20,7 +20,7 @@ char				**make_tab(t_graph *g, size_t size)
 
 	i = -1;
 	tab = NULL;
-	if (!(tab = malloc(sizeof(char*) * size + 1)))
+	if (!(tab = malloc(sizeof(char*) * (size + 1))))
 	{
 		g->bd = ERROR;
 		cleaner(g);
